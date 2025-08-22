@@ -3,48 +3,124 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>예배당 사제 계산기 · 웹버전</title>
+<title>예배당 사제 계산기 · 펀치킹 DPS</title>
 <style>
   :root{
-    --bg:#0b0c0f; --card:#11131a; --muted:#9aa3b2; --text:#ecf1f8; --border:#1a2030; --accent:#7fb3ff;
+    --bg:#0a0c12; --bg2:#0d111a; --card:#111624; --text:#eaf2ff; --muted:#9fb0c9; --border:#1b2436;
+    --accent:#7fb3ff; --accent2:#a07bff; --good:#73e0a9; --warn:#ffd36b; --bad:#ff7b7b;
+    --chip:#0f1422; --chipBorder:#1c2740;
+    --radius-lg:22px; --radius-md:16px; --radius-sm:12px;
   }
   *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--text);font-family:ui-sans-serif,system-ui,Apple SD Gothic Neo,Pretendard,Segoe UI,Roboto}
-  .wrap{max-width:1100px;margin:32px auto;padding:0 16px}
-  h1{margin:0 0 6px;font-size:24px}
-  .sub{margin:0 0 18px;color:var(--muted)}
-  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-  .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px}
-  .row{display:flex;gap:10px;align-items:center;margin:10px 0}
-  label{min-width:180px;color:#c8d4e7}
-  select,input{background:#0f1420;border:1px solid var(--border);color:var(--text);padding:8px 10px;border-radius:10px;width:100%}
-  .mono{font-family:ui-monospace,Menlo,Consolas,monospace}
-  table{width:100%;border-collapse:separate;border-spacing:0}
-  th,td{padding:8px 10px;border-bottom:1px solid var(--border)}
-  th{color:#cdd7ee}
-  .badge{display:inline-block;padding:2px 8px;border:1px solid var(--border);border-radius:999px;color:#b7c8ff;font-size:12px}
-  .hint{color:var(--muted);font-size:12px;margin-top:6px}
-  .footer{margin-top:20px;color:var(--muted);font-size:12px}
-  .kpi{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-  .kpi .box{background:#0f1420;border:1px solid var(--border);border-radius:12px;padding:12px}
-  .kpi .t{color:#9fb1d4;font-size:12px;margin-bottom:6px}
-  .kpi .v{font-size:20px;font-weight:700}
+  body{
+    margin:0; background:
+      radial-gradient(80% 60% at 80% -10%, rgba(160,123,255,.25), transparent 65%),
+      radial-gradient(80% 60% at 10% -10%, rgba(127,179,255,.25), transparent 65%),
+      linear-gradient(180deg, var(--bg), var(--bg2) 60%, var(--bg));
+    color:var(--text); font-family:ui-sans-serif,system-ui,Apple SD Gothic Neo,Pretendard,Segoe UI,Roboto;
+  }
+  .wrap{max-width:1180px; margin:28px auto 60px; padding:0 18px}
+  /* HERO */
+  .hero{
+    position:relative; border-radius:var(--radius-lg);
+    padding:22px 20px; background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
+    border:1px solid var(--border); box-shadow:0 10px 40px rgba(0,0,0,.3), inset 0 0 60px rgba(127,179,255,.06);
+    overflow:hidden;
+  }
+  .hero h1{margin:0 0 4px; font-size:18px; color:var(--muted); font-weight:600}
+  .score{
+    font-size:44px; font-weight:900; letter-spacing:.2px; line-height:1.1;
+    background:linear-gradient(90deg, #7fb3ff, #a07bff, #73e0a9, #ffd36b, #7fb3ff);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    background-size:300% 100%; animation:shine 7s linear infinite;
+    text-shadow: 0 6px 40px rgba(160,123,255,.25);
+  }
+  @keyframes shine{0%{background-position:0% 0}100%{background-position:100% 0}}
+
+  /* confetti */
+  .spark{position:absolute; inset:0; pointer-events:none}
+  .spark i{
+    position:absolute; width:6px; height:6px; border-radius:50%;
+    background:linear-gradient(180deg,#a07bff,#7fb3ff);
+    opacity:.8; filter:blur(.2px);
+    animation:drop 3.6s infinite ease-in;
+  }
+  @keyframes drop{
+    0%{transform:translateY(-20px) scale(.8); opacity:.0}
+    15%{opacity:1}
+    100%{transform:translateY(240px) scale(1.1); opacity:0}
+  }
+
+  .grid{display:grid; grid-template-columns:1.1fr .9fr; gap:16px; margin-top:16px}
+  .card{
+    background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.015));
+    border:1px solid var(--border); border-radius:var(--radius-md); padding:16px;
+    box-shadow:0 8px 30px rgba(0,0,0,.25);
+  }
+  .card h3{margin:0 0 12px; font-size:16px; color:#cfe0ff}
+
+  .row{display:flex; gap:10px; align-items:center; margin:10px 0}
+  label{min-width:180px; color:#cfe0ff; font-weight:600}
+  select,input{
+    width:100%; background:var(--chip); border:1px solid var(--chipBorder); color:var(--text);
+    padding:10px 12px; border-radius:14px; outline:none;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+  }
+
+  /* KPI */
+  .kpi{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px}
+  .kbox{
+    background:#0f1422; border:1px solid var(--chipBorder); border-radius:18px; padding:14px;
+    box-shadow:0 6px 20px rgba(0,0,0,.18);
+  }
+  .kbox .t{color:var(--muted); font-size:12px; margin-bottom:6px}
+  .kbox .v{font-size:20px; font-weight:800; letter-spacing:.2px}
+
+  /* Settings chips */
+  .chips{display:flex; flex-wrap:wrap; gap:8px}
+  .chip{
+    display:flex; align-items:center; gap:8px; padding:8px 10px; border-radius:999px;
+    background:var(--chip); border:1px solid var(--chipBorder); font-size:13px; color:#cfe0ff; cursor:pointer;
+    user-select:none;
+  }
+  .chip input{accent-color:#7fb3ff}
+  .hint{color:var(--muted); font-size:12px; margin-top:6px}
+
+  /* Gems table */
+  table{width:100%; border-collapse:separate; border-spacing:0}
+  thead th{
+    position:sticky; top:0; background:#0f1422; color:#cfe0ff;
+    padding:10px; border-bottom:1px solid var(--border);
+  }
+  tbody td{padding:8px 10px; border-bottom:1px solid var(--border)}
+  .footer{margin-top:20px; color:var(--muted); font-size:12px}
+
+  @media (max-width:980px){
+    .grid{grid-template-columns:1fr; gap:12px}
+    .kpi{grid-template-columns:1fr 1fr}
+  }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <h1>예배당 사제 계산기 · 웹버전</h1>
-  <p class="sub">엑셀 수식(조건부, SUMPRODUCT 가중합, 쿨다운/초당타수 산출, DPS 합성)을 브라우저에서 그대로 계산합니다.</p>
 
-  <div class="grid">
+  <!-- HERO: 펀치킹 DPS -->
+  <section class="hero">
+    <h1>최종 펀치킹 DPS 점수</h1>
+    <div id="punchScore" class="score">-</div>
+    <div class="spark" aria-hidden="true"></div>
+  </section>
+
+  <section class="grid">
+    <!-- 좌: 입력 -->
     <div class="card">
-      <h3>입력</h3>
+      <h3>입력 (라벨 한글화)</h3>
       <div class="row">
-        <label for="X6">강타 적용(X6)</label>
+        <label for="X6">강타 적용</label>
         <select id="X6"><option>O</option><option selected>X</option></select>
       </div>
       <div class="row">
-        <label for="F8">헬리오도르 보유(F8)</label>
+        <label for="F8">헬리오도르 보유</label>
         <select id="F8"><option selected>O</option><option>X</option></select>
       </div>
       <div class="row">
@@ -61,7 +137,7 @@
       </div>
 
       <div class="row">
-        <label for="T25">특성(T25)</label>
+        <label for="T25">특성</label>
         <select id="T25">
           <option>현란함</option><option>지혜로움</option><option>여신의 권능</option><option>여신의 가호</option>
           <option>강렬함</option><option>날쌤</option><option>냉혹함</option><option>굳건함</option><option>광폭함</option>
@@ -69,32 +145,32 @@
       </div>
 
       <div class="row">
-        <label for="T22">룬1</label>
+        <label for="T22">룬 1</label>
         <select id="T22">
           <option>빛줄기</option><option>성전</option><option>수레바퀴</option><option>결속</option><option>날개</option><option>희생</option><option>기타 룬</option>
         </select>
       </div>
       <div class="row">
-        <label for="T23">룬2</label>
+        <label for="T23">룬 2</label>
         <select id="T23">
           <option>빛줄기</option><option>성전</option><option>수레바퀴</option><option>결속</option><option>날개</option><option>희생</option><option>기타 룬</option>
         </select>
       </div>
       <div class="row">
-        <label for="T24">룬3</label>
+        <label for="T24">룬 3</label>
         <select id="T24">
           <option>빛줄기</option><option>성전</option><option>수레바퀴</option><option>결속</option><option>날개</option><option>희생</option><option>기타 룬</option>
         </select>
       </div>
 
       <div class="row">
-        <label for="T37">무기 등급(T37)</label>
+        <label for="T37">무기 등급</label>
         <select id="T37">
           <option>전설 블랙탄</option><option>전설 갈포메</option><option>에픽 블랙탄</option><option>에픽 갈포메</option><option selected>기타</option>
         </select>
       </div>
       <div class="row">
-        <label for="T38">반사신경 옵션(T38)</label>
+        <label for="T38">반사신경</label>
         <select id="T38">
           <option selected>없음</option>
           <option>신속태그 반사신경 1개</option><option>신속태그 반사신경 2개</option><option>신속태그 반사신경 3개</option>
@@ -103,249 +179,230 @@
       </div>
 
       <div class="row">
-        <label for="T35">레벨업 카드 공격력(T35)</label>
+        <label for="T35">레벨업 카드 공격력</label>
         <input id="T35" type="number" step="1" value="600" />
       </div>
       <div class="row">
-        <label for="T36">무기 각인 공격력(T36)</label>
+        <label for="T36">무기 각인 공격력</label>
         <input id="T36" type="number" step="1" value="375" />
       </div>
-
       <div class="row">
-        <label for="AB37">펫 공격력(있을 때만)(AB37)</label>
+        <label for="AB37">펫 공격력</label>
         <input id="AB37" type="number" step="0.1" value="1595.5" />
       </div>
 
-      <div class="hint">※ 보석 매트릭스는 아래에서 0~3으로 지정하세요 (0=없음, 1=스타프리즘, 2=투박S, 3=투박).</div>
+      <div class="hint">※ 아래 보석 테이블에서 0~3을 선택하세요 (0=없음, 1/2/3=등급).</div>
     </div>
 
+    <!-- 우: 출력 & 카드 선택 -->
     <div class="card">
-      <h3>주요 결과</h3>
-      <div class="kpi">
-        <div class="box"><div class="t">보조/강타/연타/방해 뎀증 합 (%)</div><div id="sumDmg" class="v mono">-</div></div>
-        <div class="box"><div class="t">쿨감 합(강타/연타/방해/지혜) (%)</div><div id="sumCdr" class="v mono">-</div></div>
-        <div class="box"><div class="t">룬/보유 보정 (AV6/AV7)</div><div id="runeMods" class="v mono">-</div></div>
-      </div>
-      <div style="height:10px"></div>
-      <div class="box" style="background:#0f1420;border:1px solid var(--border);border-radius:12px;padding:12px">
-        <div class="t">추정 DPS (CALCULATE_DPS)</div>
-        <div id="dps" class="v mono" style="font-size:24px">-</div>
-      </div>
-      <div class="hint">※ DPS는 각 스킬군의 (타수/쿨다운) 합을 기반으로 합성합니다. 엑셀 LAMBDA 정의를 제공해 주시면 동일식으로 교체 가능합니다.</div>
-    </div>
-  </div>
+      <h3>출력 카드</h3>
+      <div class="chips" id="cardChips"></div>
+      <div class="hint">표시할 카드를 선택/해제하면 바로 반영됩니다(브라우저에 저장).</div>
 
-  <div class="card" style="margin-top:16px">
-    <h3>보석 체크리스트 (D12:M33)</h3>
-    <div style="overflow:auto;max-height:48vh">
-      <table id="gemTable">
+      <div class="kpi" id="kpiGrid" style="margin-top:12px"></div>
+    </div>
+  </section>
+
+  <section class="card" style="margin-top:16px">
+    <h3>보석 체크리스트 (D~M 열)</h3>
+    <div class="hint">열 의미: <b>D,E,F,G,M</b>=뎀증 / <b>H,I,J,K,L</b>=쿨감</div>
+    <div style="overflow:auto; max-height:48vh">
+      <table>
         <thead>
-          <tr><th>부위(라벨)</th><th>D</th><th>E</th><th>F</th><th>G</th><th>H</th><th>I</th><th>J</th><th>K</th><th>L</th><th>M</th></tr>
+          <tr><th>부위</th><th>D(뎀증)</th><th>E(뎀증)</th><th>F(뎀증)</th><th>G(뎀증)</th><th>H(쿨감)</th><th>I(쿨감)</th><th>J(쿨감)</th><th>K(쿨감)</th><th>L(쿨감)</th><th>M(뎀증)</th></tr>
         </thead>
         <tbody id="gemBody"></tbody>
       </table>
     </div>
-  </div>
+  </section>
 
   <div class="footer">
-    ⓘ 웹 경량판 · 로직: <span class="mono">SUMPRODUCT 가중합, 룬/토글/무기 IF 분기, 쿨타임 → 초당타수 환산</span>.<br/>
-    더 많은 셀/출력 카드, CSV 저장, 라벨 한글화 등 커스터마이즈 가능.
+    ⓘ 계산 로직: SUMPRODUCT 가중합(보석), 반사신경에 따른 유효 쿨다운, 룬/헬리오도르 보정, <b>펀치킹 DPS=기본대미지(보정 후) × 초당타수</b>.<br/>
+    엑셀의 세부 LAMBDA/수식 원문을 주시면 동일식으로 즉시 교체 가능합니다.
   </div>
 </div>
 
 <script>
-/** --------------------------
- *  데이터/상수 (엑셀 수식과 동일 의미)
- *  -------------------------- */
+/* --------------------- 데이터/상수 --------------------- */
+const W_DMG = {1:2.0, 2:1.7, 3:1.5};        // 뎀증 가중치
+const W_CDR = {1:0.65, 2:0.55, 3:0.45};     // 쿨감 가중치
 
-// 보석 가중치 (엑셀: D/G/M열계열 2/1.7/1.5, H~L 쿨감 0.65/0.55/0.45)
-const W_DMG = {1:2.0, 2:1.7, 3:1.5};        // 뎀증 계열: D,E,F,G,M
-const W_CDR = {1:0.65, 2:0.55, 3:0.45};     // 쿨감 계열: H,I,J,K,L
-
-// 기본 쿨다운(초): 엑셀 BC7~BC13 일대 샘플 값 + 범용값
-// (무기·반사신경·태그 조합에 따라 BH/BI/BF/BK/BE 등을 선택했는데, 웹판에서는 동일수준으로 “쿨다운 후보군”을 구성)
-const BASE_COOLDOWNS = {
-  // 대표 스킬 슬롯 7~13 가정
-  7: 40,  // BC7
-  8: 32,  // BC8
-  9: 34,  // BC9
-  10: 28, // BC10 (샘플; 엑셀값 미노출시 추정값 보정)
-  11: 34, // BC11
-  12: 30, // BC12 (샘플)
-  13: 26  // BC13 (샘플)
+const BASE_COOLDOWNS = { // BC7~13 개념: 샘플 값
+  7:40, 8:32, 9:34, 10:28, 11:34, 12:30, 13:26
 };
-
-// 반사신경 옵션 → 보정계수(쿨감)
 const REFLEX_CDR = {
-  "없음":             0,
-  "신속태그 반사신경 1개": 0.10,
-  "신속태그 반사신경 2개": 0.20,
-  "신속태그 반사신경 3개": 0.30,
-  "다른태그 반사신경 1개": 0.08,
-  "다른태그 반사신경 2개": 0.16,
-  "다른태그 반사신경 3개": 0.24
+  "없음":0,
+  "신속태그 반사신경 1개":0.10, "신속태그 반사신경 2개":0.20, "신속태그 반사신경 3개":0.30,
+  "다른태그 반사신경 1개":0.08, "다른태그 반사신경 2개":0.16, "다른태그 반사신경 3개":0.24
 };
-
-// DPS 모드에 따른 히트 카운트(초당 사용 계수)
-const DPS_MODE = {
-  "글라리 전용 DPS": {weightA:7, weightB:3},   // (샘플) 엑셀 AV26/AV30 계열 참조 개념
+const DPS_MODE = { // AV26/AV30 개념의 가중
+  "글라리 전용 DPS": {weightA:7,   weightB:3},
   "다른 레이드 DPS": {weightA:3.3, weightB:2.3}
 };
 
-/** --------------------------
- *  유틸 / 엑셀 유사 함수
- *  -------------------------- */
-const clamp = (x, a, b) => Math.min(Math.max(x, a), b);
-const sum = arr => arr.reduce((s,v)=>s+(+v||0),0);
+// 부위 라벨(라벨 한글화). 필요시 원하는 명칭으로 바꿔 쓰세요.
+const GEM_LABELS = [
+  "부위 12","부위 13","부위 14","부위 15","부위 16","부위 17","부위 18","부위 19","부위 20","부위 21","부위 22",
+  "부위 23","부위 24","부위 25","부위 26","부위 27","부위 28","부위 29","부위 30","부위 31","부위 32","부위 33"
+];
 
-// IF(ISNUMBER(SEARCH("o", M8)), 1.5, 0) 형태 → 문자열 포함 판정
+/* --------------------- 유틸/엑셀 유사 --------------------- */
+const sum = a => a.reduce((s,v)=>s+(+v||0),0);
+const avg = a => a.length ? sum(a)/a.length : 0;
 function includesCaseInsensitive(hay, needle){
   return String(hay||"").toLowerCase().includes(String(needle||"").toLowerCase());
 }
-
-// SUMPRODUCT 패턴: (range==1)*w1 + (==2)*w2 + (==3)*w3
 function sumproductWeights(values, weights){
-  // values: 숫자배열(0/1/2/3), weights: {1:w1, 2:w2, 3:w3}
-  let s=0;
-  for(const v of values){
-    if(weights[v]) s += weights[v];
-  }
-  return s;
+  let s=0; for(const v of values){ if(weights[v]) s+=weights[v]; } return s;
 }
-
-// 쿨다운들을 (초당 타수)로 환산하여 합
 function hitsPerSecondFromCooldowns(cooldowns, hitWeights){
-  // cooldowns: [초단위], hitWeights: {weightA, weightB}와 같이 스킬그룹 가중치
-  // 단순화: 모든 스킬을 동일 가중군으로 보고 (1회 / 쿨다운) * 그룹가중 평균
   const w = (hitWeights?.weightA ?? 1) + (hitWeights?.weightB ?? 0);
-  let rate = 0;
-  for(const cd of cooldowns){
-    if(cd && cd>0) rate += (1/cd) * w;
-  }
+  let rate = 0; for(const cd of cooldowns){ if(cd && cd>0) rate += (1/cd) * w; }
   return rate;
 }
-
-// 최종 DPS 합성 (엑셀의 사용자함수 CALCULATE_DPS 개념)
 function CALCULATE_DPS(baseDamage, cooldowns, modeName){
   const modeW = DPS_MODE[modeName] || DPS_MODE["글라리 전용 DPS"];
   const hps = hitsPerSecondFromCooldowns(cooldowns, modeW);
-  return baseDamage * hps; // 단순 합성: 기본대미지 × 초당 타수 총합
+  return baseDamage * hps;
 }
 
-/** --------------------------
- *  보석 매트릭스 렌더
- *  -------------------------- */
+/* --------------------- 보석 테이블 렌더 --------------------- */
 const gemBody = document.getElementById('gemBody');
-const GEM_ROWS = 22; // 12~33
 (function renderGem(){
-  for(let r=12; r<=33; r++){
-    const tr = document.createElement('tr');
-    const label = document.createElement('td');
-    label.textContent = `부위 ${r}`; // 엑셀 B열 라벨을 그대로 쓰고 싶다면 여기 매핑
-    tr.appendChild(label);
-
-    for(let c=0;c<10;c++){ // D~M
-      const td = document.createElement('td');
-      const sel = document.createElement('select');
-      [0,1,2,3].forEach(v=>{
-        const o=document.createElement('option');o.value=v;o.textContent=v;sel.appendChild(o);
-      });
-      sel.value = 0;
-      sel.dataset.addr = `gem_${r}_${c}`; // 내부 주소
-      sel.oninput = recalc;
-      td.appendChild(sel);
-      tr.appendChild(td);
+  for(let idx=0, r=12; r<=33; r++, idx++){
+    const tr=document.createElement('tr');
+    const labelTd=document.createElement('td'); labelTd.textContent = GEM_LABELS[idx]||`부위 ${r}`; tr.appendChild(labelTd);
+    for(let c=0;c<11;c++){
+      const td=document.createElement('td');
+      const sel=document.createElement('select');
+      [0,1,2,3].forEach(v=>{ const o=document.createElement('option'); o.value=v; o.textContent=v; sel.appendChild(o); });
+      sel.value = 0; sel.dataset.addr=`gem_${r}_${c}`; sel.addEventListener('input', recalc);
+      td.appendChild(sel); tr.appendChild(td);
     }
     gemBody.appendChild(tr);
   }
 })();
 
-/** --------------------------
- *  입력값 수집
- *  -------------------------- */
-function getVal(id){ return document.getElementById(id).value; }
-function getNum(id){ return parseFloat(document.getElementById(id).value)||0; }
-
-function collectGemCol(colIdx){
-  // colIdx: 0..9 for D..M
-  const arr=[];
-  const selects = gemBody.querySelectorAll(`select[data-addr$="_${colIdx}"]`);
-  selects.forEach(sel=> arr.push(parseInt(sel.value,10)||0));
-  return arr;
+/* --------------------- 입력값 수집 --------------------- */
+const gv = id => document.getElementById(id).value;
+const gn = id => parseFloat(document.getElementById(id).value)||0;
+function collectGemCol(colIdx){ // 0..10 (D..M)
+  const arr=[]; gemBody.querySelectorAll(`select[data-addr$="_${colIdx}"]`).forEach(sel=>arr.push(parseInt(sel.value,10)||0)); return arr;
 }
 
-/** --------------------------
- *  계산 로직 (엑셀 방정식 재현)
- *  -------------------------- */
+/* --------------------- 출력 카드 구성 & 토글 --------------------- */
+const CARD_DEFS = [
+  { id:"totalDmg", name:"총 뎀증 합(%)",            getter: s => (s.D35+s.E35+s.F35+s.G35+s.M35).toFixed(2)+" %" },
+  { id:"totalCdr", name:"총 쿨감 합(%)",            getter: s => (s.H35+s.I35+s.J35+s.K35+s.L35).toFixed(2)+" %" },
+  { id:"av6",      name:"헬리오도르 보정(AV6)",     getter: s => (s.AV6*100).toFixed(1)+" %" },
+  { id:"av7",      name:"룬 보정(AV7)",             getter: s => (s.AV7*100).toFixed(0)+" %" },
+  { id:"avgCd",    name:"유효 쿨다운 평균(초)",      getter: s => s.avgCd.toFixed(2)+" s" },
+  { id:"hps",      name:"초당 타수",                 getter: s => s.hps.toFixed(4)+" hit/s" },
+  { id:"basePre",  name:"기본 대미지(보정 전)",      getter: s => s.basePre.toLocaleString("ko-KR") },
+  { id:"basePost", name:"기본 대미지(보정 후)",      getter: s => s.basePost.toLocaleString("ko-KR") },
+  { id:"dpsValue", name:"최종 DPS",                 getter: s => Math.round(s.dps).toLocaleString("ko-KR") }
+];
+const LS_KEY = "priest_calc_visible_cards_v1";
+function loadVisible(){ try{ return JSON.parse(localStorage.getItem(LS_KEY)) || CARD_DEFS.map(c=>c.id); }catch{ return CARD_DEFS.map(c=>c.id); } }
+function saveVisible(ids){ localStorage.setItem(LS_KEY, JSON.stringify(ids)); }
+let visibleCards = loadVisible();
+
+const chips = document.getElementById('cardChips');
+const grid  = document.getElementById('kpiGrid');
+
+function renderChips(){
+  chips.innerHTML = "";
+  CARD_DEFS.forEach(def=>{
+    const chip=document.createElement('label'); chip.className="chip";
+    const cb=document.createElement('input'); cb.type="checkbox"; cb.checked = visibleCards.includes(def.id);
+    cb.addEventListener('change', ()=>{ 
+      if(cb.checked){ if(!visibleCards.includes(def.id)) visibleCards.push(def.id); }
+      else{ visibleCards = visibleCards.filter(x=>x!==def.id); }
+      saveVisible(visibleCards); recalc();
+    });
+    chip.appendChild(cb);
+    chip.append(def.name);
+    chips.appendChild(chip);
+  });
+}
+renderChips();
+
+/* --------------------- 메인 계산 --------------------- */
+const punch = document.getElementById('punchScore');
+const spark = document.querySelector('.spark');
+
 function recalc(){
-  const X6 = getVal('X6'); // 강타 적용
-  const F8 = getVal('F8'); // 헬리오도르 보유
-  const M8 = getVal('M8'); // 추가 보정 문자열용
-  const AJ31 = getVal('AJ31'); // DPS 모드
-  const T25 = getVal('T25'); // 특성
-  const rune3 = [getVal('T22'), getVal('T23'), getVal('T24')]; // 룬 3개
-  const T37 = getVal('T37'); // 무기 등급
-  const T38 = getVal('T38'); // 반사신경
-  const T35 = getNum('T35'); // 레벨업 카드 공격력
-  const T36 = getNum('T36'); // 무기 각인 공격력
-  const AB37 = getNum('AB37'); // 펫 공격력
+  // 입력
+  const X6=gv('X6'), F8=gv('F8'), M8=gv('M8');
+  const AJ31=gv('AJ31'), T25=gv('T25'), rune3=[gv('T22'),gv('T23'),gv('T24')];
+  const T37=gv('T37'), T38=gv('T38');
+  const T35=gn('T35'), T36=gn('T36'), AB37=gn('AB37');
 
-  // 보석 열별 배열(D..M)
-  const colD = collectGemCol(0), colE = collectGemCol(1), colF = collectGemCol(2), colG = collectGemCol(3);
-  const colH = collectGemCol(4), colI = collectGemCol(5), colJ = collectGemCol(6), colK = collectGemCol(7), colL = collectGemCol(8);
-  const colM = collectGemCol(9);
+  // 보석
+  const colD=collectGemCol(0), colE=collectGemCol(1), colF=collectGemCol(2), colG=collectGemCol(3);
+  const colH=collectGemCol(4), colI=collectGemCol(5), colJ=collectGemCol(6), colK=collectGemCol(7), colL=collectGemCol(8);
+  const colM=collectGemCol(10);
 
-  // 엑셀: D/E/F/G/M 열은 뎀증 가중합, H~L은 쿨감 가중합
+  // 뎀증/쿨감 합
   const D35 = sumproductWeights(colD, W_DMG) + (includesCaseInsensitive(M8,'o') ? 1.5 : 0);
   const E35 = sumproductWeights(colE, W_DMG) + (includesCaseInsensitive(M8,'o') ? 1.5 : 0);
   const F35 = sumproductWeights(colF, W_DMG) + (includesCaseInsensitive(M8,'o') ? 1.5 : 0);
   const G35 = sumproductWeights(colG, W_DMG) + (includesCaseInsensitive(M8,'o') ? 1.5 : 0);
   const M35 = sumproductWeights(colM, W_DMG) + (includesCaseInsensitive(M8,'o') ? 1.5 : 0);
-
   const H35 = sumproductWeights(colH, W_CDR);
   const I35 = sumproductWeights(colI, W_CDR);
   const J35 = sumproductWeights(colJ, W_CDR);
   const K35 = sumproductWeights(colK, W_CDR);
   const L35 = sumproductWeights(colL, W_CDR);
 
-  // 엑셀: T6= D35+E35, T7= H35+I35
+  // T6/T7 개념
   const T6 = D35 + E35;
   const T7 = H35 + I35;
 
-  // AV6: 헬리오도르 보유 보정 (F8=="O" → +0.05)
-  const AV6 = (F8 === "O") ? 0.05 : 0;
+  // 보정
+  const AV6 = (F8 === "O") ? 0.05 : 0;                // 헬리오도르
+  const AV7 = (rune3.includes("성전")) ? 0.2 : 0;     // 룬 성전 보정
 
-  // AV7: 룬에 "성전" 하나라도 있으면 +0.2
-  const AV7 = (rune3.includes("성전")) ? 0.2 : 0;
-
-  // 무기/반사신경 조합으로 "유효 쿨다운" 구성 (엑셀 AV15의 큰 분기 구조를 경량화)
-  // 기본: BASE_COOLDOWNS에 반사신경 계수 반영(쿨감) → 유효쿨다운 = cd * (1 - cdr)
+  // 유효 쿨다운
   const reflex = REFLEX_CDR[T38] || 0;
   const baseCDs = Object.values(BASE_COOLDOWNS);
-  const effCooldowns = baseCDs.map(cd => cd * (1 - reflex));
+  const effCDs = baseCDs.map(cd => cd * (1 - reflex));
+  const avgCd = avg(effCDs);
 
-  // 기본 대미지 합성(샘플): 카드/각인/펫을 단순 가산
-  // * 실제 엑셀 AN27 등 종합식은 더 복잡(여러 % 계수 곱)하지만, 웹판에서는 핵심 구조 유지 + 주요 토글 보정 반영
-  let baseDamage = (1195 + T35 + T36) + AB37; // 기본합(샘플)
-  // 토글/룬에 따른 계수(예시): (1 + T6% + AV7) 등
+  // 기본 대미지
+  const basePre = (1195 + T35 + T36) + AB37;
   const pct = 1 + (T6/100) + AV7 + AV6;
-  baseDamage = baseDamage * pct;
+  const basePost = basePre * pct;
 
-  // 최종 DPS
-  const dps = CALCULATE_DPS(baseDamage, effCooldowns, AJ31);
+  // HPS & DPS
+  const hps = hitsPerSecondFromCooldowns(effCDs, DPS_MODE[AJ31]);
+  const dps = CALCULATE_DPS(basePost, effCDs, AJ31);
 
-  // 출력
-  document.getElementById('sumDmg').textContent =
-    `${(D35+E35+F35+G35+M35).toFixed(2)} %`;
-  document.getElementById('sumCdr').textContent =
-    `${(H35+I35+J35+K35+L35).toFixed(2)} %`;
-  document.getElementById('runeMods').textContent =
-    `AV6=${(AV6*100).toFixed(1)}% | AV7=${(AV7*100).toFixed(0)}%`;
-  document.getElementById('dps').textContent =
-    new Intl.NumberFormat('ko-KR').format(Math.round(dps));
+  // 상단 펀치킹 점수: 최종 DPS 그대로(반올림) 표시 + 화려한 연출
+  punch.textContent = Math.round(dps).toLocaleString("ko-KR");
+  // confetti sprinkle
+  spark.innerHTML = "";
+  for(let i=0;i<22;i++){
+    const dot = document.createElement('i');
+    dot.style.left = (Math.random()*100)+"%";
+    dot.style.animationDelay = (Math.random()*2)+"s";
+    dot.style.opacity = 0.7 + Math.random()*0.3;
+    spark.appendChild(dot);
+  }
+
+  // 출력 카드 -> 선택된 것만 렌더
+  const snapshot = {D35,E35,F35,G35,M35,H35,I35,J35,K35,L35, AV6,AV7, avgCd, hps, basePre, basePost, dps};
+  grid.innerHTML = "";
+  CARD_DEFS.filter(c=>visibleCards.includes(c.id)).forEach(def=>{
+    const box=document.createElement('div'); box.className="kbox";
+    const t=document.createElement('div'); t.className="t"; t.textContent=def.name;
+    const v=document.createElement('div'); v.className="v"; v.textContent = def.getter(snapshot);
+    box.appendChild(t); box.appendChild(v); grid.appendChild(box);
+  });
 }
 
-// 초기 계산
+/* 이벤트 바인딩 & 초기화 */
 document.querySelectorAll('select,input').forEach(el=>el.addEventListener('change', recalc));
 recalc();
 </script>
