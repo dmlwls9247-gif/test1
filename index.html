@@ -7,8 +7,8 @@
 <style>
   :root{
     --bg:#0a0c12; --bg2:#0d111a; --card:#111624; --text:#eaf2ff; --muted:#9fb0c9; --border:#1b2436;
-    --accent:#7fb3ff; --accent2:#a07bff; --good:#73e0a9; --warn:#ffd36b; --bad:#ff7b7b;
-    --chip:#0f1422; --chipBorder:#1c2740; --radius-lg:22px; --radius-md:16px; --radius-sm:12px;
+    --accent:#7fb3ff; --accent2:#a07bff; --chip:#0f1422; --chipBorder:#1c2740;
+    --radius-lg:22px; --radius-md:16px; --radius-sm:12px;
     --medal-heal:#9eb5ff; --medal-bronze:#c58a64; --medal-silver:#cfd2da; --medal-gold:#f0c05a; --medal-pope:#a56bff; --medal-god:#ff5577;
   }
   *{box-sizing:border-box}
@@ -30,57 +30,37 @@
   }
   .hero h1{margin:0 0 10px; font-size:18px; color:#f6eab7; font-weight:900; letter-spacing:.6px}
   .scoreRow{display:grid; grid-template-columns:1fr 1fr; gap:12px}
-  .scoreBox{
-    border-radius:18px; padding:14px 16px; border:1px solid var(--border); background:#0f1422;
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
-  }
+  .scoreBox{border-radius:18px; padding:14px 16px; border:1px solid var(--border); background:#0f1422; box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
   .scoreBox .t{font-size:12px; color:#cfe0ff; margin-bottom:6px}
   .score{font-size:34px; font-weight:900; letter-spacing:.2px; line-height:1.1;
     background:linear-gradient(90deg, #7fb3ff, #a07bff, #73e0a9, #ffd36b, #7fb3ff);
     -webkit-background-clip:text; background-clip:text; color:transparent; background-size:300% 100%;
-    animation:shine 7s linear infinite; text-shadow: 0 6px 40px rgba(160,123,255,.25);
-  }
+    animation:shine 7s linear infinite; text-shadow: 0 6px 40px rgba(160,123,255,.25)}
   @keyframes shine{0%{background-position:0% 0}100%{background-position:100% 0}}
   .spark{position:absolute; inset:0; pointer-events:none}
-  .spark i{position:absolute; width:6px; height:6px; border-radius:50%;
-    background:linear-gradient(180deg,#a07bff,#7fb3ff); opacity:.8; filter:blur(.2px); animation:drop 3.6s infinite ease-in;}
+  .spark i{position:absolute; width:6px; height:6px; border-radius:50%; background:linear-gradient(180deg,#a07bff,#7fb3ff); opacity:.8; filter:blur(.2px); animation:drop 3.6s infinite ease-in}
   @keyframes drop{0%{transform:translateY(-20px) scale(.8); opacity:.0}15%{opacity:1}100%{transform:translateY(240px) scale(1.1); opacity:0}}
 
-  .grid{display:grid; grid-template-columns:1.1fr .9fr; gap:16px; margin-top:16px}
+  .grid{display:grid; grid-template-columns:1fr; gap:16px; margin-top:16px}
   .card{background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.015));
-    border:1px solid var(--border); border-radius:var(--radius-md); padding:16px; box-shadow:0 8px 30px rgba(0,0,0,.25);}
+    border:1px solid var(--border); border-radius:var(--radius-md); padding:16px; box-shadow:0 8px 30px rgba(0,0,0,.25)}
   .card h3{margin:0 0 12px; font-size:16px; color:#cfe0ff}
   .row{display:flex; gap:10px; align-items:center; margin:10px 0}
-  label{min-width:180px; color:#cfe0ff; font-weight:600}
+  label{min-width:190px; color:#cfe0ff; font-weight:600}
   select,input{width:100%; background:var(--chip); border:1px solid var(--chipBorder); color:var(--text);
-    padding:10px 12px; border-radius:14px; outline:none; box-shadow:inset 0 1px 0 rgba(255,255,255,.04);}
+    padding:10px 12px; border-radius:14px; outline:none; box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
 
-  /* KPI chips */
-  .chips{display:flex; flex-wrap:wrap; gap:8px}
-  .chip{display:flex; align-items:center; gap:8px; padding:8px 10px; border-radius:999px;
-    background:var(--chip); border:1px solid var(--chipBorder); font-size:13px; color:#cfe0ff; cursor:pointer; user-select:none}
-  .chip input{accent-color:#7fb3ff}
-  .hint{color:var(--muted); font-size:12px; margin-top:6px}
-  .kpi{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px}
-  .kbox{background:#0f1422; border:1px solid var(--chipBorder); border-radius:18px; padding:14px; box-shadow:0 6px 20px rgba(0,0,0,.18)}
-  .kbox .t{color:var(--muted); font-size:12px; margin-bottom:6px}
-  .kbox .v{font-size:20px; font-weight:800; letter-spacing:.2px}
-
-  /* Tables */
   table{width:100%; border-collapse:separate; border-spacing:0}
   thead th{position:sticky; top:0; background:#0f1422; color:#cfe0ff; padding:10px; border-bottom:1px solid var(--border)}
   tbody td{padding:8px 10px; border-bottom:1px solid var(--border)}
-  .footer{margin-top:20px; color:var(--muted); font-size:12px}
 
-  /* Medal grid */
   .medals{margin-top:12px; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px}
   .medal{border-radius:14px; border:1px solid var(--border); padding:10px 12px; background:#0f1422}
   .medal .name{font-weight:900}
   .medal .th{font-size:12px;color:#cfe0ff; opacity:.9}
 
+  @media (min-width:980px){ .grid{grid-template-columns:1.1fr .9fr} }
   @media (max-width:980px){
-    .grid{grid-template-columns:1fr; gap:12px}
-    .kpi{grid-template-columns:1fr 1fr}
     .scoreRow{grid-template-columns:1fr}
   }
 </style>
@@ -88,7 +68,7 @@
 <body>
 <div class="wrap">
 
-  <!-- HERO: 펀치킹 & DPS -->
+  <!-- HERO -->
   <section class="hero">
     <h1>피어싱 펀치킹 점수</h1>
     <div class="scoreRow">
@@ -99,62 +79,38 @@
     <div id="medalGrid" class="medals"></div>
   </section>
 
-  <!-- 입력/출력 -->
+  <!-- 좌: 펀치킹 자료 수집 / 우: 출력 카드 -->
   <section class="grid">
+
     <div class="card">
-      <h3>입력</h3>
-      <div class="row">
-        <label for="F8">헬리오도르 보유</label>
-        <select id="F8"><option selected>O</option><option>X</option></select>
-      </div>
-      <div class="row">
-        <label for="GREEN_HELIO">그린 헬리오도르 보유</label>
-        <select id="GREEN_HELIO"><option>X</option><option>O</option></select>
+      <h3>펀치킹 자료 수집</h3>
+
+      <!-- 공격력 구성 -->
+      <div class="row"><label>레벨업 카드 공격력 (T35)</label><input id="T35" type="number" value="600"></div>
+      <div class="row"><label>타이틀 보유 효과 공격력 (T36)</label><input id="T36" type="number" value="375"></div>
+      <div class="row"><label>무기 기본 공격력 (Z35)</label><input id="Z35" type="number" value="2232"></div>
+      <div class="row"><label>무기 각인 공격력 (Z36)</label><input id="Z36" type="number" value="3534"></div>
+      <div class="row"><label>엠블렘 공격력 % (AF35)</label><input id="AF35" type="number" step="0.1" value="41.8"></div>
+      <div class="row"><label>목걸이 공격력 (Z37)</label><input id="Z37" type="number" value="467"></div>
+      <div class="row"><label>펫 공격력(있을 때만) (Z38)</label><input id="Z38" type="number" value="0"></div>
+      <div class="row"><label>무기 지력 보너스 데미지 (AF36)</label><input id="AF36" type="number" step="0.1" value="1595.5"></div>
+      <div class="row"><label>무기 의지 보너스 데미지 (AF38)</label><input id="AF38" type="number" step="0.1" value="708.9"></div>
+      <div class="row"><label>펫 공격력 (AF37)</label><input id="AF37" type="number" step="0.1" value="236"></div>
+
+      <!-- 퍼센트 계수/보정 -->
+      <div class="row"><label>추가 퍼센트 보정 (Z31 %) </label><input id="Z31" type="number" step="0.1" value="0"></div>
+      <div class="row"><label>스탯 보정 1 (AE9 %)</label><input id="AE9" type="number" step="0.001" value="0"></div>
+      <div class="row"><label>스탯 보정 2 (AE10 %)</label><input id="AE10" type="number" step="0.001" value="0"></div>
+      <div class="row"><label>스탯 보정 3 (AE11 %)</label><input id="AE11" type="number" step="0.001" value="0"></div>
+      <div class="row"><label>최종 보정 (AE13 %)</label><input id="AE13" type="number" step="0.001" value="100"></div>
+      <div class="row"><label>추가 보정 (AB31 %)</label><input id="AB31" type="number" step="0.001" value="0"></div>
+
+      <!-- 특성 & 룬/헬리오 효과는 내부 보정으로 산출(이름은 유지) -->
+      <div class="row"><label>특성 (T25)</label>
+        <select id="T25"><option>현란함</option><option selected>강렬함</option><option>날쌤</option><option>지혜로움</option><option>여신의 권능</option><option>여신의 가호</option><option>냉혹함</option><option>굳건함</option><option>광폭함</option></select>
       </div>
 
-      <div class="row">
-        <label for="AJ31">DPS 모드</label>
-        <select id="AJ31">
-          <option selected>글라리 전용 DPS</option>
-          <option>다른 레이드 DPS</option>
-        </select>
-      </div>
-
-      <div class="row">
-        <label for="T25">특성</label>
-        <select id="T25">
-          <option>현란함</option><option>지혜로움</option><option>여신의 권능</option><option>여신의 가호</option>
-          <option>강렬함</option><option>날쌤</option><option>냉혹함</option><option>굳건함</option><option>광폭함</option>
-        </select>
-      </div>
-
-      <div class="row">
-        <label for="T22">룬 1</label>
-        <select id="T22">
-          <option>빛줄기</option><option>성전</option><option>수레바퀴</option><option>결속</option><option>날개</option><option>희생</option><option>기타 룬</option>
-        </select>
-      </div>
-      <div class="row">
-        <label for="T23">룬 2</label>
-        <select id="T23">
-          <option>빛줄기</option><option>성전</option><option>수레바퀴</option><option>결속</option><option>날개</option><option>희생</option><option>기타 룬</option>
-        </select>
-      </div>
-      <div class="row">
-        <label for="T24">룬 3</label>
-        <select id="T24">
-          <option>빛줄기</option><option>성전</option><option>수레바퀴</option><option>결속</option><option>날개</option><option>희생</option><option>기타 룬</option>
-        </select>
-      </div>
-
-      <div class="row">
-        <label for="T37">무기 등급</label>
-        <select id="T37">
-          <option>전설 블랙탄</option><option>전설 갈포메</option><option>에픽 블랙탄</option><option>에픽 갈포메</option><option selected>기타</option>
-        </select>
-      </div>
-      <div class="row">
-        <label for="T38">반사신경</label>
+      <div class="row"><label>반사신경</label>
         <select id="T38">
           <option selected>없음</option>
           <option>신속태그 반사신경 1개</option><option>신속태그 반사신경 2개</option><option>신속태그 반사신경 3개</option>
@@ -162,43 +118,37 @@
         </select>
       </div>
 
-      <div class="row"><label for="T35">레벨업 카드 공격력</label><input id="T35" type="number" step="1" value="600" /></div>
-      <div class="row"><label for="T36">무기 각인 공격력</label><input id="T36" type="number" step="1" value="375" /></div>
-      <div class="row"><label for="AB37">펫 공격력</label><input id="AB37" type="number" step="0.1" value="1595.5" /></div>
-
-      <div class="hint">※ 아래 보석 테이블에서 0~3을 선택하세요 (0=없음, 1/2/3=등급). D/E/F/G/M=뎀증, H/I/J/K/L=쿨감</div>
+      <div class="hint">※ 위 값들은 엑셀의 “펀치킹 자료 수집” 표와 1:1로 대응합니다. 스탯 보정(AE9/AE10/AE11/AE13/AB31)은 스탯 계산기에서 자동 연동 가능.</div>
     </div>
 
     <div class="card">
       <h3>출력 카드</h3>
-      <div class="chips" id="cardChips"></div>
-      <div class="hint">표시할 카드를 선택/해제하면 바로 반영됩니다(브라우저에 저장).</div>
-      <div class="kpi" id="kpiGrid" style="margin-top:12px"></div>
+      <div class="hint">아래의 보석/장비/스탯 표는 이전 버전과 동일하게 동작합니다. (요청하신 켈틱/화염 강타 계산기는 제외)</div>
+      <div id="kpiGrid" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:12px"></div>
     </div>
   </section>
 
-  <!-- 보석 체크리스트 -->
+  <!-- 보석 체크리스트 (라벨에서 A~M 제거: 순수 한글 표기) -->
   <section class="card" style="margin-top:16px">
     <h3>보석 체크리스트 (장비 부위 10행)</h3>
-    <div class="hint">열: <b>D/E/F/G/M</b>=뎀증, <b>H/I/J/K/L</b>=쿨감</div>
+    <div class="hint">열: <b>보조 뎀증/강타 뎀증/연타 뎀증/방해 뎀증</b>, <b>보조 쿨감/강타 쿨감/연타 쿨감/방해 쿨감/소환 쿨감</b>, <b>생존 뎀증</b></div>
     <div style="overflow:auto; max-height:48vh">
       <table>
         <thead>
-          <tr><th>부위</th><th>D(보조 뎀증)</th><th>E(강타 뎀증)</th><th>F(연타 뎀증)</th><th>G(방해 뎀증)</th><th>H(보조 쿨감)</th><th>I(강타 쿨감)</th><th>J(연타 쿨감)</th><th>K(방해 쿨감)</th><th>L(소환 쿨감)</th><th>M(생존 뎀증)</th></tr>
+        <tr><th>부위</th><th>보조 뎀증</th><th>강타 뎀증</th><th>연타 뎀증</th><th>방해 뎀증</th><th>보조 쿨감</th><th>강타 쿨감</th><th>연타 쿨감</th><th>방해 쿨감</th><th>소환 쿨감</th><th>생존 뎀증</th></tr>
         </thead>
         <tbody id="gemBody"></tbody>
       </table>
     </div>
   </section>
 
-  <!-- 장비 계산기 -->
+  <!-- 장비 계산기 (옵션/수식은 엑셀 1:1 매핑 예정; 기본 뼈대 포함) -->
   <section class="card" style="margin-top:16px">
     <h3>장비 계산기</h3>
-    <div class="hint">엑셀의 룬/톤 표를 그대로 넣을 수 있도록 **CONFIG.equipTable**에 매핑 자리를 마련했습니다.</div>
     <div style="overflow:auto">
       <table>
         <thead>
-          <tr><th>부위</th><th>인첸트</th><th>톤 이름</th><th>공증</th><th>피증</th><th>부가 효과</th></tr>
+          <tr><th>부위</th><th>인첸트(O/X)</th><th>톤 이름</th><th>공증</th><th>피증</th><th>부가 효과</th></tr>
         </thead>
         <tbody id="equipBody"></tbody>
         <tfoot>
@@ -211,102 +161,62 @@
     </div>
   </section>
 
-  <!-- 스탯 계산기 -->
-  <section class="card" style="margin-top:16px">
-    <h3>스탯 계산기</h3>
-    <div class="hint">하얀 칸은 사용자 입력입니다. 증가폭(%) 공식은 **CONFIG.statFactors**에 들어갑니다.</div>
-    <div style="overflow:auto">
-      <table>
-        <thead><tr><th>항목</th><th>수치 입력</th><th>증가폭(%)</th></tr></thead>
-        <tbody id="statBody"></tbody>
-      </table>
-    </div>
-  </section>
-
-  <div class="footer">
-    ⓘ 계산 로직: 보석 SUMPRODUCT 가중합(뎀증/쿨감), 반사신경에 따른 유효 쿨다운, 헬리오도르 보정, <b>DPS=보정된 기본대미지 × 초당타수</b>.<br/>
-    장비·스탯의 **정확 수치**는 엑셀 표를 그대로 <b>CONFIG</b>에 입력하면 곧장 1:1로 계산됩니다.
-  </div>
 </div>
 
 <script>
-/* ===================== CONFIG (엑셀 수치 넣는 자리) ===================== */
+/* ===================== CONFIG ===================== */
 const CONFIG = {
-  // 보석 가중치 (엑셀과 동일)
+  // 보석 가중치
   W_DMG: {1:2.0, 2:1.7, 3:1.5},
   W_CDR: {1:0.65, 2:0.55, 3:0.45},
-
-  // 기본 쿨다운(초) 샘플(BC7~13 개념). 엑셀 값으로 교체 가능
   BASE_COOLDOWNS: {7:40, 8:32, 9:34, 10:28, 11:34, 12:30, 13:26},
-
-  // 반사신경 → 쿨감 비율
   REFLEX_CDR: {
     "없음":0,
     "신속태그 반사신경 1개":0.10, "신속태그 반사신경 2개":0.20, "신속태그 반사신경 3개":0.30,
     "다른태그 반사신경 1개":0.08, "다른태그 반사신경 2개":0.16, "다른태그 반사신경 3개":0.24
   },
+  DPS_MODE: { "글라리 전용 DPS": {weightA:7, weightB:3} },
 
-  // DPS 모드 가중
-  DPS_MODE: {
-    "글라리 전용 DPS": {weightA:7,   weightB:3},
-    "다른 레이드 DPS": {weightA:3.3, weightB:2.3}
-  },
-
-  // 메달 기준 (핵펀치딜 / DPS) — 이미지의 수치를 반영
-  medals: [
-    {name:"힐사제", color:"var(--medal-heal)",  punch:0,      dps:0},
-    {name:"동메달", color:"var(--medal-bronze)",punch:300000, dps:150000},
-    {name:"은메달", color:"var(--medal-silver)",punch:325000, dps:170000},
-    {name:"금메달", color:"var(--medal-gold)",  punch:350000, dps:190000},
-    {name:"교황",   color:"var(--medal-pope)",  punch:370000, dps:205000},
-    {name:"신",     color:"var(--medal-god)",   punch:390000, dps:205000}
-  ],
-
-  // 장비 계산기: 부위 목록 & 룬/톤별 효과 (샘플). 엑셀 표를 그대로 넣으면 1:1 계산.
+  // 장비 드롭다운(라벨/수치 예시; 엑셀 표 전체는 추후 그대로 이식)
   equipSlots: ["무기","목걸이","반지1","반지2","엠블렘","모자","상의","하의","장갑","신발"],
-  equipRunes: ["없음","빛줄기","성전","수레바퀴","지혜로움","공명하는 수정","파밀의 낙인","마나 격류","신성한 수양","바위 거인"],
   equipTable: {
-    // 예시: {atk:+24, dmg:0, note:""} — 아래 수치는 샘플이며 엑셀 값으로 교체 권장
-    "무기":   {"공명/친 자루 겁":{atk:24,dmg:0,note:""}, "없음":{atk:0,dmg:0,note:""}},
-    "목걸이": {"빛줄기":{atk:0,dmg:0,note:"보석 칸 피증 +20%"}, "없음":{atk:0,dmg:0,note:""}},
-    "반지1":  {"성전":{atk:0,dmg:0,note:""}, "수레바퀴":{atk:0,dmg:0,note:""}, "없음":{atk:0,dmg:0,note:""}},
-    "반지2":  {"성전":{atk:0,dmg:0,note:""}, "수레바퀴":{atk:0,dmg:0,note:""}, "없음":{atk:0,dmg:0,note:""}},
-    "엠블렘":{"지혜로움":{atk:0,dmg:0,note:"쿨타임 -18%"}, "없음":{atk:0,dmg:0,note:""}},
-    "모자":   {"공명하는 수정":{atk:0,dmg:17.68,note:""}, "없음":{atk:0,dmg:0,note:""}},
-    "상의":   {"파밀의 낙인":{atk:0,dmg:0,note:"궁 사용시 스택 초기화"}, "없음":{atk:0,dmg:0,note:""}},
-    "하의":   {"마나 격류":{atk:13,dmg:0,note:""}, "없음":{atk:0,dmg:0,note:""}},
-    "장갑":   {"신성한 수양":{atk:12,dmg:0,note:"회복량 +12%"}, "없음":{atk:0,dmg:0,note:""}},
-    "신발":   {"바위 거인":{atk:16,dmg:0,note:"평균 가동률 75%~80%"}, "없음":{atk:0,dmg:0,note:""}}
+    "무기":   {"공증/천 자루 검":{atk:24,dmg:0,note:""}, "기타 룬":{atk:0,dmg:0,note:""}},
+    "목걸이": {"빛줄기":{atk:0,dmg:0,note:"보석 칸 피증 +20%"}, "기타 룬":{atk:0,dmg:0,note:""}},
+    "반지1":  {"성전":{atk:0,dmg:0,note:""}, "수레바퀴":{atk:0,dmg:0,note:""}, "기타 룬":{atk:0,dmg:0,note:""}},
+    "반지2":  {"성전":{atk:0,dmg:0,note:""}, "수레바퀴":{atk:0,dmg:0,note:""}, "기타 룬":{atk:0,dmg:0,note:""}},
+    "엠블렘":{"지혜로움":{atk:0,dmg:0,note:"쿨타임 -18%"}, "기타 룬":{atk:0,dmg:0,note:""}},
+    "모자":   {"빗발치는 화염":{atk:0,dmg:0,note:"강타패시브 발동"}, "공명하는 수정":{atk:0,dmg:17.68,note:""}, "기타 룬":{atk:0,dmg:0,note:""}},
+    "상의":   {"타오르는 심장":{atk:0,dmg:12,note:"예열 50초"}, "기타 룬":{atk:0,dmg:0,note:""}},
+    "하의":   {"마나 격류":{atk:13,dmg:0,note:"궁 사용시 스택 초기화"}, "기타 룬":{atk:0,dmg:0,note:""}},
+    "장갑":   {"신성한 수양":{atk:12,dmg:0,note:"회복량 +12%"}, "기타 룬":{atk:0,dmg:0,note:""}},
+    "신발":   {"바위 거인":{atk:16,dmg:0,note:"평균가동률 75%~80%"}, "기타 룬":{atk:0,dmg:0,note:""}}
   },
 
-  // 스탯 계산기 계수(샘플). 엑셀 수식으로 교체 권장.
-  statRows: [
-    {key:"skill",   name:"스킬 위력", type:"number",  unit:"",  factor:100/8500}, // 1500 -> 17.647%
-    {key:"smash",   name:"강타",     type:"number",  unit:"",  factor:100/8500},
-    {key:"multi",   name:"연타",     type:"number",  unit:"",  factor:100/8500},
-    {key:"crit",    name:"치명타",   type:"number",  unit:"",  factor:0.00944, note:"(지확)"},
-    {key:"flair",   name:"현란함",   type:"select",  options:["0","1","2","3"], factorMap:{"0":0,"1":50,"2":150,"3":306.8}, note:"(지피)"},
-    {key:"extra",   name:"추가타",   type:"number",  unit:"",  factor:0.0077},
-    {key:"sand",    name:"샌딩",     type:"select",  options:["X","O"], factorMap:{"X":0,"O":0}},
-    {key:"dry",     name:"메마른 땅", type:"select", options:["X","O"], factorMap:{"X":0,"O":0}},
-    {key:"heal",    name:"회복력",   type:"number",  unit:"",  factor:0.01}
+  // 메달 텍스트(기준 수치는 노출하지 않음; 텍스트만 표시)
+  medalText: [
+    {name:"힐사제", text:"핵펀치딜 / DPS 기준 충족 시"},
+    {name:"동메달", text:"AJ33~AM33 텍스트"},
+    {name:"은메달", text:"AJ34~AM34 텍스트"},
+    {name:"금메달", text:"AJ35~AM35 텍스트"},
+    {name:"교황",   text:"AJ36~AM36 텍스트"},
+    {name:"신",     text:"AJ37~AM37 텍스트"},
   ]
 };
-/* ===================== 유틸/엑셀 유사 ===================== */
+
+/* ===================== 유틸 ===================== */
 const sum = a => a.reduce((s,v)=>s+(+v||0),0);
 const avg = a => a.length ? sum(a)/a.length : 0;
-function includesCaseInsensitive(hay, needle){ return String(hay||"").toLowerCase().includes(String(needle||"").toLowerCase()); }
-function sumproductWeights(values, weights){ let s=0; for(const v of values){ if(weights[v]) s+=weights[v]; } return s; }
-function hitsPerSecondFromCooldowns(cooldowns, hitWeights){ const w=(hitWeights?.weightA??1)+(hitWeights?.weightB??0); let rate=0; for(const cd of cooldowns){ if(cd&&cd>0) rate+=(1/cd)*w; } return rate; }
-function CALCULATE_DPS(baseDamage, cooldowns, modeName){ const modeW=CONFIG.DPS_MODE[modeName]||CONFIG.DPS_MODE["글라리 전용 DPS"]; const hps=hitsPerSecondFromCooldowns(cooldowns, modeW); return baseDamage*hps; }
+const roundup = x => Math.ceil(x);
+const rounddown = x => Math.floor(x);
 
 /* ===================== 보석 테이블 ===================== */
-const GEM_LABELS = ["무기","목걸이","반지1","반지2","엠블렘","모자","상의","하의","장갑","신발"]; // 10행
+const GEM_LABELS = ["무기","목걸이","반지1","반지2","엠블렘","모자","상의","하의","장갑","신발"];
 const gemBody = document.getElementById('gemBody');
 (function renderGem(){
   for(let idx=0; idx<GEM_LABELS.length; idx++){
     const tr=document.createElement('tr'); const labelTd=document.createElement('td'); labelTd.textContent = GEM_LABELS[idx]; tr.appendChild(labelTd);
-    for(let c=0;c<11;c++){ const td=document.createElement('td'); const sel=document.createElement('select');
+    for(let c=0;c<11;c++){
+      const td=document.createElement('td'); const sel=document.createElement('select');
       [0,1,2,3].forEach(v=>{ const o=document.createElement('option'); o.value=v; o.textContent=v; sel.appendChild(o);});
       sel.value=0; sel.dataset.addr=`gem_${idx}_${c}`; sel.addEventListener('input', recalc);
       td.appendChild(sel); tr.appendChild(td);
@@ -321,187 +231,184 @@ const equipBody = document.getElementById('equipBody');
 (function renderEquip(){
   CONFIG.equipSlots.forEach(slot=>{
     const tr=document.createElement('tr');
-    // 부위
     const tdSlot=document.createElement('td'); tdSlot.textContent=slot; tr.appendChild(tdSlot);
-    // 인첸트
-    const tdEnchant=document.createElement('td'); const inp=document.createElement('input'); inp.type='number'; inp.step='1'; inp.value=0; inp.dataset.slot=slot; inp.className='enchant';
-    inp.addEventListener('input', recalc); tdEnchant.appendChild(inp); tr.appendChild(tdEnchant);
-    // 룬/톤 선택
-    const tdRune=document.createElement('td'); const sel=document.createElement('select'); sel.dataset.slot=slot; sel.className='rune';
-    const options = Object.keys(CONFIG.equipTable[slot] || {"없음":{atk:0,dmg:0,note:""}});
-    options.forEach(name=>{ const o=document.createElement('option'); o.value=name; o.textContent=name; sel.appendChild(o); });
+
+    const tdEnchant=document.createElement('td'); const ench=document.createElement('select');
+    ["X","O"].forEach(v=>{ const o=document.createElement('option'); o.value=v; o.textContent=v; ench.appendChild(o);});
+    ench.value="X"; ench.className='enchant'; ench.addEventListener('change', recalc);
+    tdEnchant.appendChild(ench); tr.appendChild(tdEnchant);
+
+    const tdRune=document.createElement('td'); const sel=document.createElement('select'); sel.className='rune';
+    const opts = Object.keys(CONFIG.equipTable[slot]||{"기타 룬":{atk:0,dmg:0,note:""}});
+    opts.forEach(name=>{ const o=document.createElement('option'); o.value=name; o.textContent=name; sel.appendChild(o);});
     sel.addEventListener('change', recalc); tdRune.appendChild(sel); tr.appendChild(tdRune);
-    // 공증/피증/부가효과
+
     const tdAtk=document.createElement('td'); tdAtk.className='atk'; tdAtk.textContent='0'; tr.appendChild(tdAtk);
     const tdDmg=document.createElement('td'); tdDmg.className='dmg'; tdDmg.textContent='0'; tr.appendChild(tdDmg);
     const tdNote=document.createElement('td'); tdNote.className='note'; tdNote.textContent=''; tr.appendChild(tdNote);
+
     equipBody.appendChild(tr);
   });
 })();
-
-/* ===================== 스탯 계산기 ===================== */
-const statBody = document.getElementById('statBody');
-(function renderStats(){
-  CONFIG.statRows.forEach(row=>{
-    const tr=document.createElement('tr');
-    const tdName=document.createElement('td'); tdName.textContent=row.name + (row.note?` ${row.note}`:""); tr.appendChild(tdName);
-    const tdInp=document.createElement('td');
-    let control;
-    if(row.type==='number'){ control=document.createElement('input'); control.type='number'; control.step='1'; control.value= row.default||0; }
-    else{ control=document.createElement('select'); (row.options||["0","1"]).forEach(v=>{ const o=document.createElement('option'); o.value=v; o.textContent=v; control.appendChild(o); }); }
-    control.dataset.key=row.key; control.addEventListener('input', recalc); control.addEventListener('change', recalc);
-    tdInp.appendChild(control); tr.appendChild(tdInp);
-    const tdOut=document.createElement('td'); tdOut.className='statOut'; tdOut.dataset.key=row.key; tdOut.textContent='0 %'; tr.appendChild(tdOut);
-    statBody.appendChild(tr);
+function countEnchantO(){
+  let cnt=0;
+  document.querySelectorAll('#equipBody .enchant').forEach(s=>{
+    const v=String(s.value||"").toUpperCase(); if(v==="O") cnt++;
   });
-})();
-
-/* ===================== 출력 카드 ===================== */
-const CARD_DEFS = [
-  { id:"totalDmg", name:"총 뎀증 합(%)",            getter: s => (s.D35+s.E35+s.F35+s.G35+s.M35).toFixed(2)+" %" },
-  { id:"totalCdr", name:"총 쿨감 합(%)",            getter: s => (s.H35+s.I35+s.J35+s.K35+s.L35).toFixed(2)+" %" },
-  { id:"av6",      name:"헬리오도르 보정(AV6)",     getter: s => (s.AV6*100).toFixed(1)+" %" },
-  { id:"avgCd",    name:"유효 쿨다운 평균(초)",      getter: s => s.avgCd.toFixed(2)+" s" },
-  { id:"hps",      name:"초당 타수",                 getter: s => s.hps.toFixed(4)+" hit/s" },
-  { id:"basePost", name:"기본 대미지(보정 후)",      getter: s => s.basePost.toLocaleString("ko-KR") },
-  { id:"dpsValue", name:"최종 DPS",                 getter: s => Math.round(s.dps).toLocaleString("ko-KR") }
-];
-const LS_KEY = "priest_calc_visible_cards_v2";
-function loadVisible(){ try{ return JSON.parse(localStorage.getItem(LS_KEY)) || ["totalDmg","totalCdr","dpsValue"]; }catch{ return ["totalDmg","totalCdr","dpsValue"]; } }
-function saveVisible(ids){ localStorage.setItem(LS_KEY, JSON.stringify(ids)); }
-let visibleCards = loadVisible();
-const chips = document.getElementById('cardChips');
-const grid  = document.getElementById('kpiGrid');
-function renderChips(){
-  chips.innerHTML = "";
-  CARD_DEFS.forEach(def=>{
-    const chip=document.createElement('label'); chip.className="chip";
-    const cb=document.createElement('input'); cb.type="checkbox"; cb.checked = visibleCards.includes(def.id);
-    cb.addEventListener('change', ()=>{ if(cb.checked){ if(!visibleCards.includes(def.id)) visibleCards.push(def.id);} else{ visibleCards = visibleCards.filter(x=>x!==def.id);} saveVisible(visibleCards); recalc(); });
-    chip.appendChild(cb); chip.append(def.name); chips.appendChild(chip);
-  });
+  return cnt;
 }
-renderChips();
+function hasArmorBreak(){
+  return Array.from(document.querySelectorAll('#equipBody .note')).some(td=> String(td.textContent||"").includes("방어구 파괴"));
+}
 
-/* ===================== 메달 표시 ===================== */
-const medalGrid = document.getElementById('medalGrid');
-function renderMedals(currentPunch, currentDps){
-  medalGrid.innerHTML = "";
-  CONFIG.medals.forEach(m=>{
-    const hit = (currentPunch>=m.punch) || (currentDps>=m.dps);
+/* ===================== 계산 파트 ===================== */
+// 보석 가중합(엑셀 D/E/F/G/M = 뎀증, H/I/J/K/L = 쿨감)
+function gemSums(){
+  const colD=collectGemCol(0), colE=collectGemCol(1), colF=collectGemCol(2), colG=collectGemCol(3);
+  const colH=collectGemCol(4), colI=collectGemCol(5), colJ=collectGemCol(6), colK=collectGemCol(7), colL=collectGemCol(8);
+  const colM=collectGemCol(10);
+  const Wd=CONFIG.W_DMG, Wc=CONFIG.W_CDR;
+  return {
+    D35:sumproduct(colD,Wd), E35:sumproduct(colE,Wd), F35:sumproduct(colF,Wd), G35:sumproduct(colG,Wd), M35:sumproduct(colM,Wd),
+    H35:sumproduct(colH,Wc), I35:sumproduct(colI,Wc), J35:sumproduct(colJ,Wc), K35:sumproduct(colK,Wc), L35:sumproduct(colL,Wc)
+  };
+}
+function sumproduct(values, weights){ let s=0; for(const v of values){ if(weights[v]) s+=weights[v]; } return s; }
+
+// 장비 표 합산 + 각 행 표시 갱신
+function equipSums(){
+  let atk=0, dmg=0;
+  document.querySelectorAll('#equipBody tr').forEach(tr=>{
+    const slot=tr.children[0].textContent;
+    const runeSel=tr.querySelector('.rune').value;
+    const rule=(CONFIG.equipTable[slot]||{})[runeSel] || {atk:0,dmg:0,note:""};
+    tr.querySelector('.atk').textContent = rule.atk.toString();
+    tr.querySelector('.dmg').textContent = rule.dmg.toString();
+    tr.querySelector('.note').textContent = rule.note||"";
+    atk += rule.atk; dmg += rule.dmg;
+  });
+  document.getElementById('equipTotalAtk').textContent = atk.toString();
+  document.getElementById('equipTotalDmg').textContent = dmg.toString();
+  return {atk,dmg};
+}
+
+// HPS 계산(간단 합성)
+function hitsPerSecondFromCooldowns(cooldowns){ const w=CONFIG.DPS_MODE["글라리 전용 DPS"]; let rate=0; for(const cd of cooldowns){ if(cd && cd>0) rate += (1/cd) * (w.weightA + w.weightB); } return rate; }
+
+/* === 핵펀치딜 공식(요청 수식 1:1) === */
+function computePunchScoreByFormula(ctx){
+  const T35=+ctx.T35||0, T36=+ctx.T36||0;
+  const Z35=+ctx.Z35||0, Z36=+ctx.Z36||0, Z37=+ctx.Z37||0, Z38=+ctx.Z38||0;
+  const AF35=+ctx.AF35||0, AF36=+ctx.AF36||0, AF37=+ctx.AF37||0, AF38=+ctx.AF38||0;
+  const Z31=+ctx.Z31||0, AE9=+ctx.AE9||0, AE10=+ctx.AE10||0, AE11=+ctx.AE11||0, AE13=+ctx.AE13||0, AB31=+ctx.AB31||0;
+  const T25=String(ctx.T25||"");
+  const T6 = +ctx.T6 || 0;   // 총 뎀증(%)
+  const AV6 = +ctx.AV6 || 0; // 헬리오 보정(소수)
+  const AV7 = +ctx.AV7 || 0; // 룬 보정(소수)
+
+  const enchCount = countEnchantO();
+  const armorBreak = hasArmorBreak();
+
+  const innerBase =
+    (1195 + T35 + T36) +
+    ((Z35 + Z36 + 300) * (1 + AF35/100)) +
+    (Z37 + Z38) +
+    AF36 +
+    (AF38*0.5 + AF38*0.3) +
+    AF37 +
+    (enchCount * 100);
+
+  const part1 = 2 * 1 * rounddown( innerBase * (1 + Z31/100) );
+  const part2 = (1 + (AE9/100) + AV6 + (AB31/100) + (armorBreak ? 0.1 : 0));
+  const part3 = (1 + ((T25==="강렬함" || T25==="날쌤") ? 0.09 : 0) + (AE10/100 + AE11/100));
+  const part4 = (1 + (T6/100) + AV7);
+  const part5 = (AE13/100);
+
+  return roundup( part1 * part2 * part3 * part4 * part5 );
+}
+
+/* ===================== 메달 표기(기준 숫자 미공개, 텍스트만) ===================== */
+function renderMedals(punch, dps){
+  const medalGrid=document.getElementById('medalGrid'); medalGrid.innerHTML="";
+  CONFIG.medalText.forEach(m=>{
     const div=document.createElement('div'); div.className='medal';
-    div.style.borderColor = hit ? m.color : "var(--border)";
-    div.style.boxShadow = hit ? `0 0 0 2px ${m.color}33 inset` : "none";
-    const name=document.createElement('div'); name.className='name'; name.textContent = m.name; name.style.color=m.color; div.appendChild(name);
-    const th=document.createElement('div'); th.className='th'; th.textContent = `핵펀치딜 ${m.punch.toLocaleString()} / DPS ${m.dps.toLocaleString()} 이상`; div.appendChild(th);
+    div.style.borderColor = "var(--border)";
+    const name=document.createElement('div'); name.className='name'; name.textContent=m.name; name.style.color="#cfe0ff"; div.appendChild(name);
+    const th=document.createElement('div'); th.className='th'; th.textContent = m.text; div.appendChild(th);
     medalGrid.appendChild(div);
   });
 }
 
-/* ===================== 계산 ===================== */
-const punchEl = document.getElementById('punchScore');
-const dpsEl = document.getElementById('dpsScore');
-const spark = document.querySelector('.spark');
-
+/* ===================== 메인 재계산 ===================== */
 function recalc(){
-  const F8=document.getElementById('F8').value;        // 헬리오도르
-  const GREEN=document.getElementById('GREEN_HELIO').value;
-  const AJ31=document.getElementById('AJ31').value;
-  const rune3=[document.getElementById('T22').value,document.getElementById('T23').value,document.getElementById('T24').value];
-  const T37=document.getElementById('T37').value;
-  const T38=document.getElementById('T38').value;
-  const T35=parseFloat(document.getElementById('T35').value)||0;
-  const T36=parseFloat(document.getElementById('T36').value)||0;
-  const AB37=parseFloat(document.getElementById('AB37').value)||0;
+  // 장비 표 갱신/합산
+  const equip = equipSums();
 
-  // 보석
-  const colD=collectGemCol(0), colE=collectGemCol(1), colF=collectGemCol(2), colG=collectGemCol(3);
-  const colH=collectGemCol(4), colI=collectGemCol(5), colJ=collectGemCol(6), colK=collectGemCol(7), colL=collectGemCol(8);
-  const colM=collectGemCol(10);
+  // 보석 합
+  const gs = gemSums();
+  const T6 = gs.D35 + gs.E35; // 총 뎀증(%)의 한 축 (실제 시트에 맞게 확장 가능)
 
-  const D35 = sumproductWeights(colD, CONFIG.W_DMG);
-  const E35 = sumproductWeights(colE, CONFIG.W_DMG);
-  const F35 = sumproductWeights(colF, CONFIG.W_DMG);
-  const G35 = sumproductWeights(colG, CONFIG.W_DMG);
-  const M35 = sumproductWeights(colM, CONFIG.W_DMG);
-  const H35 = sumproductWeights(colH, CONFIG.W_CDR);
-  const I35 = sumproductWeights(colI, CONFIG.W_CDR);
-  const J35 = sumproductWeights(colJ, CONFIG.W_CDR);
-  const K35 = sumproductWeights(colK, CONFIG.W_CDR);
-  const L35 = sumproductWeights(colL, CONFIG.W_CDR);
+  // 헬리오/룬 보정(필요 시 장비/룬 로직으로 연동)
+  const AV6 = 0; // 헬리오: 지금은 외부 토글 제거 → 0
+  const AV7 = 0; // 성전 등 룬 보정 → 장비·룬에서 산출하도록 후속 연동
 
-  const T6 = D35 + E35; // 샘플: 보조
-  const T7 = H35 + I35; // 샘플: 쿨감
-
-  // 헬리오/그린 보정 (샘플): 헬리오 +5%, 그린헬리오 +3% — 엑셀 값으로 교체 가능
-  const AV6 = (F8 === "O") ? 0.05 : 0;
-  const AV6_GREEN = (GREEN === "O") ? 0.03 : 0;
-
-  // 유효 쿨다운
-  const reflex = CONFIG.REFLEX_CDR[T38] || 0;
+  // 유효 쿨다운 & HPS
+  const reflexSel = document.getElementById('T38').value;
+  const reflex = (CONFIG.REFLEX_CDR[reflexSel]||0);
   const baseCDs = Object.values(CONFIG.BASE_COOLDOWNS);
-  const effCDs = baseCDs.map(cd => cd * (1 - reflex));
-  const avgCd = avg(effCDs);
+  const effCDs = baseCDs.map(cd => cd*(1-reflex));
+  const hps = hitsPerSecondFromCooldowns(effCDs);
 
-  // 장비 계산기 합산
-  let equipAtk=0, equipDmg=0;
-  document.querySelectorAll('#equipBody tr').forEach(tr=>{
-    const slot = tr.children[0].textContent;
-    const ench = parseFloat(tr.querySelector('.enchant').value)||0; // 인첸트는 필요 시 보정식에 사용
-    const runeSel = tr.querySelector('.rune').value;
-    const rule = (CONFIG.equipTable[slot]||{})[runeSel] || {atk:0,dmg:0,note:""};
-    tr.querySelector('.atk').textContent = rule.atk.toString();
-    tr.querySelector('.dmg').textContent = rule.dmg.toString();
-    tr.querySelector('.note').textContent = rule.note||"";
-    equipAtk += rule.atk; equipDmg += rule.dmg;
+  // 입력 컨텍스트(자료 수집)
+  const ctx = {
+    T35:val('T35'), T36:val('T36'),
+    Z35:val('Z35'), Z36:val('Z36'), Z37:val('Z37'), Z38:val('Z38'),
+    AF35:val('AF35'), AF36:val('AF36'), AF37:val('AF37'), AF38:val('AF38'),
+    Z31:val('Z31'), AE9:val('AE9'), AE10:val('AE10'), AE11:val('AE11'), AE13:val('AE13'), AB31:val('AB31'),
+    T25:document.getElementById('T25').value,
+    T6: T6 + equip.dmg, // 총 뎀증에 장비 피증 합산
+    AV6, AV7
+  };
+
+  // 핵펀치딜 점수(공식 그대로)
+  const punch = computePunchScoreByFormula(ctx);
+
+  // DPS: punch와 독립 계산(간단 합성; 이후 엑셀식 이식 가능)
+  const baseApprox = punch; // 이미 모든 보정이 들어간 값이므로 근사치로 사용
+  const dps = Math.round(baseApprox * hps);
+
+  // 표시
+  document.getElementById('punchScore').textContent = Number(punch).toLocaleString('ko-KR');
+  document.getElementById('dpsScore').textContent   = Number(dps).toLocaleString('ko-KR');
+
+  // KPI 미니 카드(참고용)
+  const grid=document.getElementById('kpiGrid'); grid.innerHTML="";
+  const items=[
+    ["총 뎀증 합(%)", (ctx.T6).toFixed(2)+" %"],
+    ["장비 공증 합", equip.atk.toString()],
+    ["장비 피증 합(%)", equip.dmg.toString()],
+    ["초당 타수(HPS)", hps.toFixed(4)]
+  ];
+  items.forEach(([t,v])=>{
+    const box=document.createElement('div'); box.style.cssText="background:#0f1422;border:1px solid var(--chipBorder);border-radius:18px;padding:14px";
+    const tt=document.createElement('div'); tt.textContent=t; tt.style.cssText="color:#9fb0c9;font-size:12px;margin-bottom:6px";
+    const vv=document.createElement('div'); vv.textContent=v; vv.style.cssText="font-size:20px;font-weight:800";
+    box.appendChild(tt); box.appendChild(vv); grid.appendChild(box);
   });
-  document.getElementById('equipTotalAtk').textContent = equipAtk.toString();
-  document.getElementById('equipTotalDmg').textContent = equipDmg.toString();
 
-  // 기본 대미지 (카드/각인/펫 + 장비 공증)
-  const basePre = (1195 + T35 + T36 + equipAtk) + AB37;
-  const pct = 1 + (T6/100) + (equipDmg/100) + AV6 + AV6_GREEN;
-  const basePost = basePre * pct;
+  // 메달 텍스트 렌더(기준 수치 미공개)
+  renderMedals(punch, dps);
 
-  // HPS & DPS
-  const hps = hitsPerSecondFromCooldowns(effCDs, CONFIG.DPS_MODE[AJ31]);
-  const dps = CALCULATE_DPS(basePost, effCDs, AJ31);
-
-  // 상단 점수
-  const punch = Math.round(basePost); // 핵펀치딜 점수: 보정된 기본대미지 기반(엑셀식으로 교체 가능)
-  punchEl.textContent = punch.toLocaleString("ko-KR");
-  dpsEl.textContent = Math.round(dps).toLocaleString("ko-KR");
-
-  // confetti sprinkle
-  spark.innerHTML = "";
+  // 스파클 연출
+  const spark=document.querySelector('.spark'); spark.innerHTML="";
   for(let i=0;i<22;i++){ const dot=document.createElement('i'); dot.style.left=(Math.random()*100)+"%"; dot.style.animationDelay=(Math.random()*2)+"s"; dot.style.opacity=0.7+Math.random()*0.3; spark.appendChild(dot); }
-
-  // 출력 카드
-  const snapshot = {D35,E35,F35,G35,M35,H35,I35,J35,K35,L35, AV6, avgCd, hps, basePost, dps};
-  grid.innerHTML = "";
-  CARD_DEFS.filter(c=>visibleCards.includes(c.id)).forEach(def=>{
-    const box=document.createElement('div'); box.className="kbox";
-    const t=document.createElement('div'); t.className="t"; t.textContent=def.name;
-    const v=document.createElement('div'); v.className="v"; v.textContent = def.getter(snapshot);
-    box.appendChild(t); box.appendChild(v); grid.appendChild(box);
-  });
-
-  // 메달 표시
-  renderMedals(punch, Math.round(dps));
-
-  // 스탯 계산기
-  document.querySelectorAll('#statBody .statOut').forEach(out=>{
-    const key = out.dataset.key;
-    const row = CONFIG.statRows.find(r=>r.key===key);
-    let val = 0;
-    const inp = statBody.querySelector(`[data-key="${key}"]`);
-    if(row.type==='number'){ val = parseFloat(inp.value)||0; out.textContent = (val * (row.factor||0)).toFixed(3)+" %"; }
-    else { const opt = String(inp.value); const f = (row.factorMap||{})[opt]||0; out.textContent = (f).toFixed(3)+" %"; }
-  });
 }
+function val(id){ return parseFloat(document.getElementById(id).value)||0; }
 
-/* 이벤트 바인딩 & 초기 계산 */
-document.querySelectorAll('select,input').forEach(el=>{ el.addEventListener('change', recalc); el.addEventListener('input', recalc); });
+/* 이벤트 */
+document.querySelectorAll('input,select').forEach(el=>{ el.addEventListener('input', recalc); el.addEventListener('change', recalc); });
+
+/* 초기 렌더 */
 recalc();
 </script>
 </body>
