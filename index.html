@@ -5,26 +5,41 @@
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>예배당 사제 계산기</title>
 <style>
-/* --- 스타일: 이전 본 그대로 (생략 없이 포함) --- */
-:root{--bg:#0a0c12;--bg2:#0d111a;--card:#111624;--text:#eaf2ff;--muted:#9fb0c9;--border:#1b2436;
---accent:#7fb3ff;--accent2:#a07bff;--chip:#0f1422;--chipBorder:#1c2740;
---radius-lg:22px;--radius-md:16px;--radius-sm:12px;
---medal-heal:#9eb5ff;--medal-bronze:#c58a64;--medal-silver:#cfd2da;--medal-gold:#f0c05a;--medal-pope:#a56bff;--medal-god:#ff5577}
-*{box-sizing:border-box}body{margin:0;background:
-radial-gradient(80% 60% at 80% -10%, rgba(160,123,255,.25), transparent 65%),
-radial-gradient(80% 60% at 10% -10%, rgba(127,179,255,.25), transparent 65%),
-linear-gradient(180deg,var(--bg),var(--bg2) 60%,var(--bg));color:var(--text);
-font-family:ui-sans-serif,system-ui,Apple SD Gothic Neo,Pretendard,Segoe UI,Roboto}
+:root{
+  --bg:#0a0a13; --bg2:#0b0f18; --card:#0e1220; --text:#ecf1ff; --muted:#a9b7cf; --border:#1a2234;
+  --accent:#f0c05a; --accent2:#a988ff; --chip:#0f1422; --chipBorder:#1c2740;
+  --radius-lg:26px; --radius-md:18px; --radius-sm:14px;
+  --medal-heal:#9eb5ff; --medal-bronze:#c58a64; --medal-silver:#cfd2da; --medal-gold:#ffd465; --medal-pope:#c09aff; --medal-god:#ff5577;
+  --icon-color:#ffd465; --ring-color:transparent;
+}
+*{box-sizing:border-box}
+body{margin:0;background:
+  radial-gradient(80% 60% at 80% -10%, rgba(160,123,255,.20), transparent 65%),
+  radial-gradient(80% 60% at 10% -10%, rgba(240,192,90,.18), transparent 65%),
+  linear-gradient(180deg, var(--bg), var(--bg2) 60%, var(--bg));
+  color:var(--text);font-family:ui-sans-serif,system-ui,Apple SD Gothic Neo,Pretendard,Segoe UI,Roboto}
 .wrap{max-width:1180px;margin:28px auto 60px;padding:0 18px}
-.hero{position:relative;border-radius:22px;padding:22px 20px;background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.01));border:1px solid var(--border);box-shadow:0 10px 40px rgba(0,0,0,.3),inset 0 0 60px rgba(127,179,255,.06);overflow:hidden}
-.hero h1{margin:0 0 10px;font-size:18px;color:#f6eab7;font-weight:900;letter-spacing:.6px}
+
+/* Toolbar */
+.toolbar{display:flex;gap:12px;align-items:center;justify-content:flex-end;margin:8px 0 14px}
+.toolbar label{display:flex;gap:8px;align-items:center;color:#cfe0ff;font-weight:600}
+.toolbar select{width:160px;background:var(--chip);border:1px solid var(--chipBorder);color:var(--text);padding:8px 10px;border-radius:12px}
+
+/* Icons */
+.h3{display:flex;align-items:center;gap:10px;margin:0 0 12px;font-size:16px;color:#cfe0ff;font-weight:700}
+.icon{width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;border-radius:6px;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));border:1px solid var(--border)}
+.icon svg{width:14px;height:14px;fill:none;stroke:var(--icon-color);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+
+/* Hero */
+.hero{position:relative;border-radius:var(--radius-lg);padding:22px 20px;background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.01));border:1px solid var(--border);box-shadow:0 14px 50px rgba(0,0,0,.35),inset 0 0 80px rgba(127,179,255,.08);overflow:hidden}
+.hero h1{margin:0 0 10px;font-size:18px;color:#f6eab7;font-weight:900;letter-spacing:.6px;display:flex;gap:10px;align-items:center}
 .scoreRow{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.scoreBox{border-radius:18px;padding:14px 16px;border:1px solid var(--border);background:#0f1422;box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
-.scoreBox .t{font-size:12px;color:#cfe0ff;margin-bottom:6px}
-.score{font-size:34px;font-weight:900;letter-spacing:.2px;line-height:1.1;background:linear-gradient(90deg,#7fb3ff,#a07bff,#73e0a9,#ffd36b,#7fb3ff);
--webkit-background-clip:text;background-clip:text;color:transparent;background-size:300% 100%;animation:shine 7s linear infinite;text-shadow:0 6px 40px rgba(160,123,255,.25)}
+.scoreBox{border-radius:20px;padding:14px 16px;border:1px solid var(--border);background:#0f1422;box-shadow:inset 0 1px 0 rgba(255,255,255,.04);position:relative;overflow:hidden}
+.scoreBox .t{font-size:12px;color:#cfe0ff;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.scoreBox .t .icon{border:none;background:transparent}
+.score{font-size:34px;font-weight:900;letter-spacing:.4px;line-height:1.1;background:linear-gradient(90deg,#ffd465,#a988ff,#73e0a9,#ffd36b,#ffd465);-webkit-background-clip:text;background-clip:text;color:transparent;background-size:300% 100%;animation:shine 7s linear infinite;text-shadow:0 6px 44px rgba(160,123,255,.28)}
 @keyframes shine{0%{background-position:0% 0}100%{background-position:100% 0}}
-.grade{margin-top:6px;font-weight:800}
+.grade{margin-top:6px;font-weight:800;padding:2px 8px;border-radius:999px;background:rgba(255,255,255,.06);display:inline-block}
 .grade[data-grade="힐사제"]{color:var(--medal-heal)}
 .grade[data-grade="동메달"]{color:var(--medal-bronze)}
 .grade[data-grade="은메달"]{color:var(--medal-silver)}
@@ -32,54 +47,126 @@ font-family:ui-sans-serif,system-ui,Apple SD Gothic Neo,Pretendard,Segoe UI,Robo
 .grade[data-grade="교황"]{color:var(--medal-pope)}
 .grade[data-grade="신"]{color:var(--medal-god)}
 .spark{position:absolute;inset:0;pointer-events:none}
-.spark i{position:absolute;width:6px;height:6px;border-radius:50%;background:linear-gradient(180deg,#a07bff,#7fb3ff);opacity:.8;filter:blur(.2px);animation:drop 3.6s infinite ease-in}
-@keyframes drop{0%{transform:translateY(-20px) scale(.8);opacity:0}15%{opacity:1}100%{transform:translateY(240px) scale(1.1);opacity:0}}
+.spark i{position:absolute;width:6px;height:6px;border-radius:50%;background:linear-gradient(180deg,#a07bff,#ffd465);opacity:.8;filter:blur(.2px);animation:drop 3.6s infinite ease-in}
+@keyframes drop{0%{transform:translateY(-20px) scale(.8);opacity:.0}15%{opacity:1}100%{transform:translateY(240px) scale(1.1);opacity:0}}
+
+/* Cards & table */
 .grid{display:grid;grid-template-columns:1.05fr .95fr;gap:16px;margin-top:16px}
-.card{background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.015));border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:0 8px 30px rgba(0,0,0,.25)}
-.card h3{margin:0 0 12px;font-size:16px;color:#cfe0ff}
+.card{background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.015));border:1px solid var(--border);border-radius:var(--radius-md);padding:16px;box-shadow:0 10px 34px rgba(0,0,0,.28)}
 .row{display:flex;gap:10px;align-items:center;margin:10px 0}
-label{min-width:220px;color:#cfe0ff;font-weight:600}
+label{min-width:220px;color:#cfe0ff;font-weight:600;display:flex;align-items:center;gap:8px}
+label .icon{border:none;background:transparent}
 select,input{width:100%;background:var(--chip);border:1px solid var(--chipBorder);color:var(--text);padding:10px 12px;border-radius:14px;outline:none;box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
-table{width:100%;border-collapse:separate;border-spacing:0}
-thead th{position:sticky;top:0;background:#0f1422;color:#cfe0ff;padding:10px;border-bottom:1px solid var(--border)}
+table{width:100%;border-collapse:separate;border-spacing:0;table-layout:fixed}
+thead th{position:sticky;top:0;z-index:1;background:#0f1422;color:#cfe0ff;padding:10px;border-bottom:1px solid var(--border)}
 tbody td{padding:8px 10px;border-bottom:1px solid var(--border)}
+tbody tr:nth-child(odd){background:rgba(255,255,255,.02)}
+tbody tr:hover{background:rgba(240,192,90,.08)}
+th:nth-child(1){width:88px} th:nth-child(2){width:118px} th:nth-child(3){width:220px} th:nth-child(4), th:nth-child(5){width:90px}
 .kpi{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:14px}
 .kbox{background:#0f1422;border:1px solid var(--chipBorder);border-radius:18px;padding:14px}
-.kbox .t{color:#9fb0c9;font-size:12px;margin-bottom:6px}.kbox .v{font-size:20px;font-weight:800}
+.kbox .t{color:#9fb0c9;font-size:12px;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.kbox .t .icon{border:none;background:transparent}
+.kbox .v{font-size:20px;font-weight:800}
 td.slotLabel{color:#9fb0c9;font-size:12px;white-space:nowrap}
+
+/* Grade-driven UI */
+body.grade-heal  { --icon-color: var(--medal-heal); }
+body.grade-bronze{ --icon-color: var(--medal-bronze); }
+body.grade-silver{ --icon-color: var(--medal-silver); }
+body.grade-gold  { --icon-color: var(--medal-gold); }
+body.grade-pope  { --icon-color: var(--medal-pope); }
+body.grade-god   { --icon-color: var(--medal-god); --ring-color: rgba(255,85,119,.7); }
+.god-glow{position:relative}
+.god-glow::before{content:"";position:absolute;inset:-1px;border-radius:inherit;background:conic-gradient(from 0deg,#ff889a,#ffd465,#a988ff,#73e0a9,#ff889a);filter:blur(6px);opacity:.75;z-index:0;animation:ringSpin 6s linear infinite}
+.god-glow::after{content:"";position:absolute;inset:0;border-radius:inherit;z-index:1;border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 0 60px rgba(255,255,255,.03)}
+@keyframes ringSpin{to{transform:rotate(360deg)}}
+.god-glow > *{position:relative;z-index:2}
+
 @media (max-width:980px){.grid{grid-template-columns:1fr}.scoreRow{grid-template-columns:1fr}.kpi{grid-template-columns:1fr 1fr}}
+@media (prefers-reduced-motion: reduce){.spark i, .score{animation:none}}
 </style>
 </head>
-<body>
-<div class="wrap">
+<body class="theme-cathedral">
+<!-- SVG Icons -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <symbol id="i-crown" viewBox="0 0 24 24"><path d="M3 7l4 3 5-6 5 6 4-3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"/><path d="M3 7l4 3h10l4-3"/></symbol>
+  <symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 3s2 3 2 5-2 3-2 5 2 3 2 5-2 3-2 3-6-2-6-8c0-4 4-7 6-10z"/></symbol>
+  <symbol id="i-sword" viewBox="0 0 24 24"><path d="M14 4l6 6-8 8H6v-6z"/><path d="M6 18l-2 2"/></symbol>
+  <symbol id="i-gem" viewBox="0 0 24 24"><path d="M3 10l5-6h8l5 6-9 11z"/><path d="M8 4l4 6 4-6"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24"><path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"/><path d="M2 12h3m14 0h3M4.9 4.9l2.1 2.1m9.9 9.9l2.1 2.1M4.9 19.1l2.1-2.1m9.9-9.9l2.1-2.1"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 6-7 9-7 9s-7-3-7-9V6z"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 3L4 14h7l-1 7 9-11h-7z"/></symbol>
+  <symbol id="i-rosary" viewBox="0 0 24 24"><circle cx="12" cy="6" r="3"/><path d="M12 9v11m0 0l-3-3m3 3l3-3"/></symbol>
+  <symbol id="i-badge" viewBox="0 0 24 24"><path d="M12 3l3 4 5 1-3 4 .5 5-5.5-2-5.5 2 .5-5L4 8l5-1z"/></symbol>
+</svg>
 
-  <!-- 점수/등급 + 출력 KPI -->
-  <section class="hero">
-    <h1>피어싱 펀치킹 점수</h1>
+<div class="wrap">
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <label><span class="icon"><svg><use href="#i-settings"/></svg></span>테마
+      <select id="themeSel">
+        <option value="theme-minimal">클린 미니멀</option>
+        <option value="theme-arcade">아케이드 네온</option>
+        <option value="theme-cathedral" selected>성당 테마</option>
+      </select>
+    </label>
+    <label><span class="icon"><svg><use href="#i-bolt"/></svg></span>컴팩트
+      <select id="densitySel" style="width:110px">
+        <option value="normal" selected>기본</option>
+        <option value="compact">좁게</option>
+      </select>
+    </label>
+  </div>
+
+  <!-- HERO -->
+  <section id="hero" class="hero">
+    <h1><span class="icon"><svg><use href="#i-crown"/></svg></span>피어싱 펀치킹 점수</h1>
     <div class="scoreRow">
-      <div class="scoreBox"><div class="t">핵펀치딜 점수</div><div id="punchScore" class="score">-</div><div id="punchGrade" class="grade">등급: -</div></div>
-      <div class="scoreBox"><div class="t">DPS 점수</div><div id="dpsScore" class="score">-</div><div id="dpsGrade" class="grade">등급: -</div></div>
+      <div class="scoreBox" id="punchBox">
+        <div class="t"><span class="icon"><svg><use href="#i-flame"/></svg></span>핵펀치딜 점수</div>
+        <div id="punchScore" class="score">-</div>
+        <div id="punchGrade" class="grade">등급: -</div>
+      </div>
+      <div class="scoreBox" id="dpsBox">
+        <div class="t"><span class="icon"><svg><use href="#i-rosary"/></svg></span>DPS 점수</div>
+        <div id="dpsScore" class="score">-</div>
+        <div id="dpsGrade" class="grade">등급: -</div>
+      </div>
     </div>
     <div id="kpiGrid" class="kpi"></div>
     <div class="spark" aria-hidden="true"></div>
+
+    <!-- Save area -->
+    <div class="row" style="margin-top:14px; align-items:flex-end; gap:12px; flex-wrap:wrap">
+      <div style="flex:1 1 260px">
+        <label style="min-width:auto"><span class="icon"><svg><use href="#i-badge"/></svg></span>닉네임
+          <input id="nickname" type="text" maxlength="20" placeholder="최대 20자"/>
+        </label>
+      </div>
+      <button id="saveBtn" style="background:#1a2336;border:1px solid var(--chipBorder);color:#fff;padding:10px 16px;border-radius:12px;cursor:pointer">
+        랭킹에 저장
+      </button>
+      <small style="color:#9fb0c9">※ 저장하면 상위표에 공개됩니다.</small>
+    </div>
   </section>
 
   <section class="grid">
-    <!-- 펀치킹 자료 수집 -->
+    <!-- 자료 수집 -->
     <div class="card">
-      <h3>펀치킹 자료 수집</h3>
-      <div class="row"><label>레벨업 카드 공격력</label><input id="T35" type="number" value="600"></div>
-      <div class="row"><label>타이틀 보유 효과 공격력</label><input id="T36" type="number" value="375"></div>
-      <div class="row"><label>무기 기본 공격력</label><input id="Z35" type="number" value="2232"></div>
-      <div class="row"><label>무기 각인 공격력</label><input id="Z36" type="number" value="3534"></div>
-      <div class="row"><label>엠블렘 공격력 %</label><input id="AF35" type="number" step="0.1" value="41.8"></div>
-      <div class="row"><label>목걸이 공격력</label><input id="Z37" type="number" value="467"></div>
-      <div class="row"><label>펫 공격력(있을 때만)</label><input id="Z38" type="number" value="0"></div>
-      <div class="row"><label>무기 지력 보너스 데미지</label><input id="AF36" type="number" step="0.1" value="1595.5"></div>
-      <div class="row"><label>무기 의지 보너스 데미지</label><input id="AF38" type="number" step="0.1" value="708.9"></div>
-      <div class="row"><label>펫 공격력</label><input id="AF37" type="number" step="0.1" value="236"></div>
+      <h3 class="h3"><span class="icon"><svg><use href="#i-badge"/></svg></span>펀치킹 자료 수집</h3>
+      <div class="row"><label><span class="icon"><svg><use href="#i-sword"/></svg></span>레벨업 카드 공격력</label><input id="T35" type="number" value="600"></div>
+      <div class="row"><label><span class="icon"><svg><use href="#i-badge"/></svg></span>타이틀 보유 효과 공격력</label><input id="T36" type="number" value="375"></div>
+      <div class="row"><label><span class="icon"><svg><use href="#i-sword"/></svg></span>무기 기본 공격력</label><input id="Z35" type="number" value="2232"></div>
+      <div class="row"><label><span class="icon"><svg><use href="#i-sword"/></svg></span>무기 각인 공격력</label><input id="Z36" type="number" value="3534"></div>
+      <div class="row"><label><span class="icon"><svg><use href="#i-gem"/></svg></span>엠블렘 공격력 %</label><input id="AF35" type="number" step="0.1" value="41.8"></div>
+      <div class="row"><label><span class="icon"><svg><use href="#i-rosary"/></svg></span>목걸이 공격력</label><input id="Z37" type="number" value="467"></div>
+      <div class="row"><label><span class="icon"><svg><use href="#i-bolt"/></svg></span>펫 공격력(있을 때만)</label><input id="Z38" type="number" value="0"></div>
+      <div class="row"><label><span class="icon"><svg><use href="#i-shield"/></svg></span>무기 지력 보너스 데미지</label><input id="AF36" type="number" step="0.1" value="1595.5"></div>
+      <div class="row"><label><span class="icon"><svg><use href="#i-shield"/></svg></span>무기 의지 보너스 데미지</label><input id="AF38" type="number" step="0.1" value="708.9"></div>
+      <div class="row"><label><span class="icon"><svg><use href="#i-bolt"/></svg></span>펫 공격력</label><input id="AF37" type="number" step="0.1" value="236"></div>
 
-      <div class="row"><label>엠블럼</label>
+      <div class="row"><label><span class="icon"><svg><use href="#i-badge"/></svg></span>엠블럼</label>
         <select id="T25">
           <option>현란함</option><option selected>강렬함</option><option>날쌤</option>
           <option>지혜로움</option><option>여신의 권능</option><option>여신의 가호</option>
@@ -87,7 +174,7 @@ td.slotLabel{color:#9fb0c9;font-size:12px;white-space:nowrap}
         </select>
       </div>
 
-      <div class="row"><label>반사신경</label>
+      <div class="row"><label><span class="icon"><svg><use href="#i-bolt"/></svg></span>반사신경</label>
         <select id="T38">
           <option selected>없음</option>
           <option>신속태그 반사신경 1개</option><option>신속태그 반사신경 2개</option><option>신속태그 반사신경 3개</option>
@@ -98,7 +185,7 @@ td.slotLabel{color:#9fb0c9;font-size:12px;white-space:nowrap}
 
     <!-- 장비 계산기 -->
     <div class="card">
-      <h3>장비 계산기</h3>
+      <h3 class="h3"><span class="icon"><svg><use href="#i-sword"/></svg></span>장비 계산기</h3>
       <div style="overflow:auto">
         <table>
           <thead><tr><th>부위</th><th>인첸트(O/X)</th><th>톤 이름</th><th>공증</th><th>피증</th><th>부가 효과</th></tr></thead>
@@ -112,14 +199,16 @@ td.slotLabel{color:#9fb0c9;font-size:12px;white-space:nowrap}
 
   <!-- 보석 옵션 체크 -->
   <section class="card" style="margin-top:16px">
-    <div style="display:flex;align-items:center;justify-content:space-between">
-      <h3>보석 옵션 체크</h3>
-      <label style="display:flex;align-items:center;gap:8px;color:#cfe0ff;font-weight:600">
-        헬리오도르 사용
-        <select id="HELIODOR_USE" style="width:90px;background:var(--chip);border:1px solid var(--chipBorder);color:var(--text);padding:8px 10px;border-radius:12px">
-          <option>O</option><option selected>X</option>
-        </select>
-      </label>
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+      <h3 class="h3"><span class="icon"><svg><use href="#i-gem"/></svg></span>보석 옵션 체크</h3>
+      <div style="display:flex;gap:12px;align-items:center">
+        <label><span class="icon"><svg><use href="#i-gem"/></svg></span>헬리오도르 사용(무기)
+          <select id="HELIODOR_USE" style="width:90px;background:var(--chip);border:1px solid var(--chipBorder);color:var(--text);padding:8px 10px;border-radius:12px"><option>O</option><option selected>X</option></select>
+        </label>
+        <label><span class="icon"><svg><use href="#i-gem"/></svg></span>그린 헬리오도르 사용(엠블럼)
+          <select id="GREEN_HELIODOR_USE" style="width:90px;background:var(--chip);border:1px solid var(--chipBorder);color:var(--text);padding:8px 10px;border-radius:12px"><option>O</option><option selected>X</option></select>
+        </label>
+      </div>
     </div>
     <div style="overflow:auto;max-height:52vh">
       <table>
@@ -135,86 +224,61 @@ td.slotLabel{color:#9fb0c9;font-size:12px;white-space:nowrap}
       </table>
     </div>
   </section>
+
+  <!-- LIVE 랭킹 -->
+  <section class="card" style="margin-top:16px">
+    <h3 class="h3"><span class="icon"><svg><use href="#i-crown"/></svg></span>실시간 랭킹 TOP 50</h3>
+    <div style="overflow:auto;max-height:52vh">
+      <table>
+        <thead><tr><th style="width:64px">순위</th><th>닉네임</th><th>핵펀치딜</th><th>DPS</th><th>등급</th><th style="width:160px">기록시간</th></tr></thead>
+        <tbody id="rankBody"><tr><td colspan="6" style="text-align:center;color:#9fb0c9">불러오는 중…</td></tr></tbody>
+      </table>
+    </div>
+  </section>
 </div>
 
-<script>
-/* ---------- 기본 설정/유틸 ---------- */
+<!-- Firebase SDK (모듈) -->
+<script type="module">
+/* ---------- 테마/밀도 ---------- */
+(function initTheme(){
+  const html=document.documentElement, sel=document.getElementById('themeSel'), dens=document.getElementById('densitySel');
+  const applyTheme=v=>{html.classList.remove('theme-minimal','theme-arcade','theme-cathedral');html.classList.add(v)};
+  const applyDensity=v=>{html.classList.toggle('density-compact', v==='compact')};
+  applyTheme('theme-cathedral'); sel.value='theme-cathedral';
+  applyDensity(dens?.value||'normal'); sel?.addEventListener('change', ()=>applyTheme(sel.value)); dens?.addEventListener('change', ()=>applyDensity(dens.value));
+})();
+
+/* ---------- 기존 계산기 로직(요약: 핵심 함수만) ---------- */
 const CONFIG={
   W_DMG:{1:2.0,2:1.7,3:1.5},
   W_CDR:{1:0.65,2:0.55,3:0.45},
   BASE_COOLDOWNS:{7:40,8:32,9:34,10:28,11:34,12:30,13:26},
-  REFLEX_CDR:{
-    "없음":0,"신속태그 반사신경 1개":0.10,"신속태그 반사신경 2개":0.20,"신속태그 반사신경 3개":0.30,
-    "다른태그 반사신경 1개":0.08,"다른태그 반사신경 2개":0.16,"다른태그 반사신경 3개":0.24
-  },
-  THRESHOLDS:[
-    {name:"신",punch:390000,dps:205000},
-    {name:"교황",punch:370000,dps:205000},
-    {name:"금메달",punch:350000,dps:190000},
-    {name:"은메달",punch:325000,dps:170000},
-    {name:"동메달",punch:300000,dps:150000},
-    {name:"힐사제",punch:0,dps:0}
-  ],
+  REFLEX_CDR:{"없음":0,"신속태그 반사신경 1개":0.10,"신속태그 반사신경 2개":0.20,"신속태그 반사신경 3개":0.30,"다른태그 반사신경 1개":0.08,"다른태그 반사신경 2개":0.16,"다른태그 반사신경 3개":0.24},
+  THRESHOLDS:[{name:"신",punch:390000,dps:205000},{name:"교황",punch:370000,dps:205000},{name:"금메달",punch:350000,dps:190000},{name:"은메달",punch:325000,dps:170000},{name:"동메달",punch:300000,dps:150000},{name:"힐사제",punch:0,dps:0}],
   equipSlots:["무기","목걸이","반지1","반지2","엠블렘","모자","상의","하의","장갑","신발"],
-  equipTable:{} // ← runes.json 로드 후 채움
+  equipTable:{}
 };
-const sum=a=>a.reduce((s,v)=>s+(+v||0),0);
 const roundup=x=>Math.ceil(x), rounddown=x=>Math.floor(x);
-
-function setKPI(items){const grid=document.getElementById('kpiGrid');grid.innerHTML="";
-  items.forEach(([t,v])=>{const b=document.createElement('div');b.className='kbox';
-    const tt=document.createElement('div');tt.className='t';tt.textContent=t;
-    const vv=document.createElement('div');vv.className='v';vv.textContent=v;
-    b.appendChild(tt);b.appendChild(vv);grid.appendChild(b);});}
-
-/* ---------- 보석 옵션 체크 ---------- */
-const GEM_PARTS=[{name:"무기",slots:2},{name:"목걸이",slots:2},{name:"반지1",slots:2},{name:"반지2",slots:2},{name:"엠블렘",slots:2},{name:"모자",slots:3},{name:"상의",slots:3},{name:"하의",slots:3},{name:"장갑",slots:3},{name:"신발",slots:3}];
-const gemBody=document.getElementById('gemBody');
-function make0to3Select(addr){const s=document.createElement('select');[0,1,2,3].forEach(v=>{const o=document.createElement('option');o.value=v;o.textContent=v;s.appendChild(o)});s.value=0;s.dataset.addr=addr;s.addEventListener('input',recalc);return s}
-function renderGem(){gemBody.innerHTML="";GEM_PARTS.forEach((p,pi)=>{for(let si=0;si<p.slots;si++){const tr=document.createElement('tr');
-  const tdP=document.createElement('td');tdP.textContent=si===0?p.name:"";tr.appendChild(tdP);
-  const tdS=document.createElement('td');tdS.className='slotLabel';tdS.textContent=`슬롯 ${si+1}`;tr.appendChild(tdS);
-  for(let c=0;c<11;c++){const td=document.createElement('td');td.appendChild(make0to3Select(`gem_${pi}_${si}_${c}`));tr.appendChild(td)}gemBody.appendChild(tr)}});applyGemRules()}
-function applyGemRules(){const useHelio=(document.getElementById('HELIODOR_USE').value==="O");
-  gemBody.querySelectorAll('[data-addr^="gem_0_0_"]').forEach(sel=>{if(useHelio){sel.value="0";sel.disabled=true}else{sel.disabled=false}})}
-document.getElementById('HELIODOR_USE').addEventListener('change',()=>{applyGemRules();recalc()});renderGem();
-function collectGemCol(ci){const arr=[];gemBody.querySelectorAll(`select[data-addr$="_${ci}"]`).forEach(s=>arr.push(parseInt(s.value,10)||0));return arr}
-function sumproduct(vals,weights){let s=0;for(const v of vals){if(weights[v])s+=weights[v]}return s}
-
-/* ---------- 장비 계산기 ---------- */
-const equipBody=document.getElementById('equipBody');
-function renderEquip(){
-  equipBody.innerHTML="";
-  CONFIG.equipSlots.forEach(slot=>{
-    const tr=document.createElement('tr');
-    const tdSlot=document.createElement('td');tdSlot.textContent=slot;tr.appendChild(tdSlot);
-    const tdEn=document.createElement('td');const en=document.createElement('select');["X","O"].forEach(v=>{const o=document.createElement('option');o.value=v;o.textContent=v;en.appendChild(o)});en.value="X";en.className='enchant';en.addEventListener('change',recalc);tdEn.appendChild(en);tr.appendChild(tdEn);
-    const tdRune=document.createElement('td');const sel=document.createElement('select');sel.className='rune';
-    const options=Object.keys(CONFIG.equipTable[slot]||{"기타 룬":{atk:0,dmg:0,note:""}});options.forEach(n=>{const o=document.createElement('option');o.value=n;o.textContent=n;sel.appendChild(o)});sel.addEventListener('change',recalc);tdRune.appendChild(sel);tr.appendChild(tdRune);
-    const tdAtk=document.createElement('td');tdAtk.className='atk';tdAtk.textContent='0';tr.appendChild(tdAtk);
-    const tdDmg=document.createElement('td');tdDmg.className='dmg';tdDmg.textContent='0';tr.appendChild(tdDmg);
-    const tdNote=document.createElement('td');tdNote.className='note';tdNote.textContent='';tr.appendChild(tdNote);
-    equipBody.appendChild(tr);
-  });
-}
+function setKPI(items){const grid=document.getElementById('kpiGrid');grid.innerHTML="";items.forEach(([t,v])=>{const b=document.createElement('div');b.className='kbox';b.innerHTML=`<div class="t"><span class="icon"><svg><use href="#i-badge"/></svg></span>${t}</div><div class="v">${v}</div>`;grid.appendChild(b);});}
 function countEnchantO(){let c=0;document.querySelectorAll('#equipBody .enchant').forEach(s=>{if(String(s.value).toUpperCase()==="O")c++});return c}
 function hasArmorBreak(){return Array.from(document.querySelectorAll('#equipBody .note')).some(td=> String(td.textContent||"").includes("방어구 파괴"))}
-function equipSums(){let atk=0,dmg=0;document.querySelectorAll('#equipBody tr').forEach(tr=>{
-  const slot=tr.children[0].textContent;const runeSel=tr.querySelector('.rune').value;
-  const rule=(CONFIG.equipTable[slot]||{})[runeSel]||{atk:0,dmg:0,note:""};
-  tr.querySelector('.atk').textContent=rule.atk;tr.querySelector('.dmg').textContent=rule.dmg;tr.querySelector('.note').textContent=rule.note||"";
-  atk+=+rule.atk||0;dmg+=+rule.dmg||0;});
-  document.getElementById('equipTotalAtk').textContent=atk;document.getElementById('equipTotalDmg').textContent=dmg;return {atk,dmg}}
-
-/* ---------- 등급 ---------- */
 function computeGrade(punch,dps){for(const t of CONFIG.THRESHOLDS){if(punch>=t.punch||dps>=t.dps)return t.name}return "힐사제"}
 function setGrade(el,name){el.textContent=`등급: ${name}`;el.setAttribute('data-grade',name)}
-
-/* 핵펀치딜 공식(엑셀 수식 1:1) */
+function collectGemCol(ci){const arr=[];document.querySelectorAll(`#gemBody select[data-addr$="_${ci}"]`).forEach(s=>arr.push(parseInt(s.value,10)||0));return arr}
+function sumproduct(vals,weights){let s=0;for(const v of vals){if(weights[v])s+=weights[v]}return s}
+function sumOfCols(colIdxs){return colIdxs.reduce((acc,ci)=>acc+collectGemCol(ci).reduce((s,v)=>s+(+v||0),0),0)}
+function activeTagCount(){let n=0;const sumCols=idxs=>sumOfCols(idxs)>0; if(sumCols([0,4]))n++; if(sumCols([1,5]))n++; if(sumCols([2,6]))n++; if(sumCols([3,7]))n++; if(sumCols([8]))n++; return n;}
+function val(id){return parseFloat(document.getElementById(id).value)||0}
+function applyGradeTheme(gradeName){const body=document.body, hero=document.getElementById('hero'), pBox=document.getElementById('punchBox'), dBox=document.getElementById('dpsBox');
+  body.classList.remove("grade-heal","grade-bronze","grade-silver","grade-gold","grade-pope","grade-god");
+  const map={"힐사제":"grade-heal","동메달":"grade-bronze","은메달":"grade-silver","금메달":"grade-gold","교황":"grade-pope","신":"grade-god"};
+  body.classList.add(map[gradeName]||"grade-heal");
+  [hero,pBox,dBox].forEach(el=>el?.classList.toggle('god-glow', gradeName==="신"));
+}
 function computePunchScoreByFormula(ctx){
   const T35=+ctx.T35||0,T36=+ctx.T36||0,Z35=+ctx.Z35||0,Z36=+ctx.Z36||0,Z37=+ctx.Z37||0,Z38=+ctx.Z38||0;
   const AF35=+ctx.AF35||0,AF36=+ctx.AF36||0,AF37=+ctx.AF37||0,AF38=+ctx.AF38||0;
-  const Z31=0,AE9=0,AE10=0,AE11=0,AB31=0,AE13=100; // UI 제거된 보정항목 기본값
+  const Z31=0,AE9=0,AE10=0,AE11=0,AB31=0,AE13=100;
   const T25=String(ctx.T25||""); const T6=+ctx.T6||0, AV6=+ctx.AV6||0, AV7=+ctx.AV7||0;
   const enchCount=countEnchantO(); const armorBreak=hasArmorBreak();
   const innerBase=(1195+T35+T36)+((Z35+Z36+300)*(1+AF35/100))+(Z37+Z38)+AF36+(AF38*0.5+AF38*0.3)+AF37+(enchCount*100);
@@ -225,57 +289,148 @@ function computePunchScoreByFormula(ctx){
   const part5=(AE13/100);
   return roundup(part1*part2*part3*part4*part5);
 }
-
-/* ---------- 재계산 ---------- */
+function renderEquip(){
+  const tbody=document.getElementById('equipBody'); tbody.innerHTML="";
+  CONFIG.equipSlots.forEach(slot=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML = `
+      <td>${slot}</td>
+      <td><select class="enchant"><option>X</option><option>O</option></select></td>
+      <td><select class="rune"></select></td>
+      <td class="atk">0</td><td class="dmg">0</td><td class="note"></td>`;
+    const sel=tr.querySelector('.rune'); const opts=Object.keys(CONFIG.equipTable[slot]||{"기타 룬":{atk:0,dmg:0,note:""}});
+    opts.forEach(n=>{const o=document.createElement('option');o.value=n;o.textContent=n;sel.appendChild(o)});
+    tr.querySelectorAll('select').forEach(s=>s.addEventListener('change',recalc));
+    tbody.appendChild(tr);
+  });
+}
+function equipSums(){
+  let atk=0,dmg=0; const rows=[];
+  document.querySelectorAll('#equipBody tr').forEach(tr=>{
+    const slot=tr.children[0].textContent; const rune=tr.querySelector('.rune').value;
+    const rule=(CONFIG.equipTable[slot]||{})[rune]||{atk:0,dmg:0,note:""};
+    tr.querySelector('.atk').textContent=rule.atk; tr.querySelector('.dmg').textContent=rule.dmg; tr.querySelector('.note').textContent=rule.note||"";
+    rows.push({slot,name:rune,atk:+rule.atk||0,dmg:+rule.dmg||0});
+  });
+  const hasBrand = rows.some(r=>r.name==="파멸의 낙인");
+  rows.forEach(r=>{let d=r.dmg; if(r.name==="공명하는 수정" && hasBrand){d+=4.08} atk+=r.atk; dmg+=d});
+  document.getElementById('equipTotalAtk').textContent=atk; document.getElementById('equipTotalDmg').textContent=dmg;
+  return {atk,dmg};
+}
+function renderGem(){
+  const parts=[{name:"무기",slots:3},{name:"목걸이",slots:1},{name:"반지1",slots:1},{name:"반지2",slots:1},{name:"엠블렘",slots:1},{name:"모자",slots:3},{name:"상의",slots:3},{name:"하의",slots:3},{name:"장갑",slots:3},{name:"신발",slots:3}];
+  const gemBody=document.getElementById('gemBody'); gemBody.innerHTML="";
+  const makeSel=addr=>{const s=document.createElement('select');[0,1,2,3].forEach(v=>{const o=document.createElement('option');o.value=v;o.textContent=v;s.appendChild(o)});s.dataset.addr=addr;s.addEventListener('input',recalc);return s};
+  parts.forEach((p,pi)=>{for(let si=0;si<p.slots;si++){const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${si===0?p.name:""}</td><td class="slotLabel">슬롯 ${si+1}</td>`; for(let c=0;c<10;c++){const td=document.createElement('td'); td.appendChild(makeSel(`gem_${pi}_${si}_${c}`)); tr.appendChild(td)}; gemBody.appendChild(tr); }});
+  const applyGemRules=()=>{const helio=(document.getElementById('HELIODOR_USE').value==="O"); document.querySelectorAll('[data-addr^="gem_0_0_"]').forEach(sel=>{sel.disabled=helio; if(helio) sel.value="0";});};
+  document.getElementById('HELIODOR_USE').addEventListener('change',()=>{applyGemRules();recalc()});
+  document.getElementById('GREEN_HELIODOR_USE').addEventListener('change',()=>recalc());
+  applyGemRules();
+}
 function recalc(){
   const equip=equipSums();
-  const colD=collectGemCol(0),colE=collectGemCol(1),colF=collectGemCol(2),colG=collectGemCol(3);
-  const colH=collectGemCol(4),colI=collectGemCol(5),colJ=collectGemCol(6),colK=collectGemCol(7),colL=collectGemCol(8);
-  const colM=collectGemCol(10);
-  const D35=sumproduct(colD,CONFIG.W_DMG),E35=sumproduct(colE,CONFIG.W_DMG),F35=sumproduct(colF,CONFIG.W_DMG),G35=sumproduct(colG,CONFIG.W_DMG),M35=sumproduct(colM,CONFIG.W_DMG);
-  const totalDmgPct=D35+E35+F35+G35+M35+equip.dmg;
+  const colD=collectGemCol(0), colE=collectGemCol(1), colF=collectGemCol(2), colG=collectGemCol(3);
+  const colH=collectGemCol(4), colI=collectGemCol(5), colJ=collectGemCol(6), colK=collectGemCol(7), colL=collectGemCol(8), colM=collectGemCol(9);
+  const D35=sumproduct(colD,CONFIG.W_DMG), E35=sumproduct(colE,CONFIG.W_DMG), F35=sumproduct(colF,CONFIG.W_DMG), G35=sumproduct(colG,CONFIG.W_DMG), M35=sumproduct(colM,CONFIG.W_DMG);
+  let totalDmgPct = D35 + E35 + F35 + G35 + M35 + equip.dmg;
+  if (document.getElementById('HELIODOR_USE').value==="O") totalDmgPct += 5;
+  if (document.getElementById('GREEN_HELIODOR_USE').value==="O") totalDmgPct += 1.5 * activeTagCount();
   const reflexSel=document.getElementById('T38').value, reflex=(CONFIG.REFLEX_CDR[reflexSel]||0);
-  const effCDs=Object.values(CONFIG.BASE_COOLDOWNS).map(cd=>cd*(1-reflex));
-  const hps=effCDs.reduce((acc,cd)=>acc+((1/cd)*(7+3)),0);
-  const ctx={T35:val('T35'),T36:val('T36'),Z35:val('Z35'),Z36:val('Z36'),Z37:val('Z37'),Z38:val('Z38'),
-    AF35:val('AF35'),AF36:val('AF36'),AF37:val('AF37'),AF38:val('AF38'),T25:document.getElementById('T25').value,
-    T6:totalDmgPct,AV6:0,AV7:0};
+  const effCDs=Object.values(CONFIG.BASE_COOLDOWNS).map(cd=>cd*(1-reflex)); const hps=effCDs.reduce((acc,cd)=>acc+((1/cd)*(7+3)),0);
+  const ctx={T35:val('T35'),T36:val('T36'),Z35:val('Z35'),Z36:val('Z36'),Z37:val('Z37'),Z38:val('Z38'),AF35:val('AF35'),AF36:val('AF36'),AF37:val('AF37'),AF38:val('AF38'),T25:document.getElementById('T25').value,T6:totalDmgPct,AV6:0,AV7:0};
   const punch=computePunchScoreByFormula(ctx); const dps=Math.round(punch*hps);
   document.getElementById('punchScore').textContent=Number(punch).toLocaleString('ko-KR');
   document.getElementById('dpsScore').textContent=Number(dps).toLocaleString('ko-KR');
-  setGrade(document.getElementById('punchGrade'),computeGrade(punch,dps));
-  setGrade(document.getElementById('dpsGrade'),computeGrade(punch,dps));
+  const punchG=computeGrade(punch,dps), dpsG=computeGrade(punch,dps);
+  setGrade(document.getElementById('punchGrade'),punchG); setGrade(document.getElementById('dpsGrade'),dpsG);
+  const order=["힐사제","동메달","은메달","금메달","교황","신"]; const topGrade = order[Math.max(order.indexOf(punchG), order.indexOf(dpsG))]; applyGradeTheme(topGrade);
   setKPI([["총 뎀증 합(%)",totalDmgPct.toFixed(2)+" %"],["장비 공증 합",equip.atk.toString()],["장비 피증 합(%)",equip.dmg.toString()],["초당 타수(HPS)",hps.toFixed(4)]]);
-  const spark=document.querySelector('.spark');spark.innerHTML="";for(let i=0;i<22;i++){const d=document.createElement('i');d.style.left=(Math.random()*100)+"%";d.style.animationDelay=(Math.random()*2)+"s";d.style.opacity=0.7+Math.random()*0.3;spark.appendChild(d)}
+  const spark=document.querySelector('.spark'); spark.innerHTML=""; for(let i=0;i<22;i++){const d=document.createElement('i'); d.style.left=(Math.random()*100)+"%"; d.style.animationDelay=(Math.random()*2)+"s"; d.style.opacity=0.7+Math.random()*0.3; spark.appendChild(d)}
+  // 최신 점수를 메모리에도 보관(저장 버튼에서 사용)
+  window.__latestScore = { punch, dps, grade: topGrade };
 }
-function val(id){return parseFloat(document.getElementById(id).value)||0}
-document.querySelectorAll('input,select').forEach(el=>{el.addEventListener('input',recalc);el.addEventListener('change',recalc)});
-
-/* ---------- 데이터 로드: runes.json ---------- */
-async function loadRunes(){
-  try{
-    const res=await fetch('./runes.json',{cache:'no-store'});
-    if(!res.ok) throw new Error(res.statusText);
-    const tbl=await res.json();
-    CONFIG.equipTable=tbl;
-  }catch(e){
-    // 안전용 최소값(파일 미존재 시)
-    CONFIG.equipTable={
-      "무기":{"공증/천 자루 검":{atk:24,dmg:0,note:""},"기타 룬":{atk:0,dmg:0,note:""}},
-      "목걸이":{"빛줄기":{atk:0,dmg:0,note:""},"기타 룬":{atk:0,dmg:0,note:""}},
-      "반지1":{"성전":{atk:0,dmg:0,note:""}}, "반지2":{"수레바퀴":{atk:0,dmg:0,note:""}},
-      "엠블렘":{"지혜로움":{atk:0,dmg:0,note:"쿨타임 -18%"}},
-      "모자":{"빗발치는 화염":{atk:0,dmg:0,note:"강타패시브 발동"}},
-      "상의":{"타오르는 심장":{atk:0,dmg:12,note:"예열 50초"}},
-      "하의":{"마나 격류":{atk:13,dmg:0,note:"궁 사용시 스택 초기화"}},
-      "장갑":{"신성한 수양":{atk:12,dmg:0,note:"회복량 + 12%"}},
-      "신발":{"바위 거인":{atk:16,dmg:0,note:"평균가동률 75%~80%"}}
-    };
-  }
-  renderEquip(); // 테이블(옵션) 그리기
-  recalc();
+function loadRunes(){ // runes.json
+  fetch('./runes.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(json=>{
+    CONFIG.equipTable = json || {"무기":{"공증/천 자루 검":{atk:24,dmg:0,note:""},"기타 룬":{atk:0,dmg:0,note:""}}};
+    renderEquip(); renderGem(); recalc();
+  });
 }
+document.addEventListener('input',e=>{if(e.target.matches('input,select')) recalc()}); document.addEventListener('change',e=>{if(e.target.matches('input,select')) recalc()});
 loadRunes();
+
+/* ---------- Firebase(모듈 CDN) ---------- */
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+import { getFirestore, collection, addDoc, serverTimestamp, query, orderBy, limit, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+// 🔧 여기를 너의 프로젝트 키로 교체
+const firebaseConfig = {
+  apiKey: "PASTE_YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT.appspot.com",
+  messagingSenderId: "SENDER_ID",
+  appId: "APP_ID"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db   = getFirestore(app);
+
+// 익명 로그인
+signInAnonymously(auth).catch(console.error);
+
+// 저장 버튼
+const saveBtn = document.getElementById('saveBtn');
+saveBtn.addEventListener('click', async ()=>{
+  const nick = (document.getElementById('nickname').value||"").trim();
+  const s = window.__latestScore || {};
+  if (!nick) { alert("닉네임을 입력하세요."); return; }
+  if (!s.punch || !s.dps) { alert("점수가 계산된 후에 저장할 수 있어요."); return; }
+
+  try{
+    saveBtn.disabled = true; saveBtn.textContent = "저장 중…";
+    await addDoc(collection(db, "rankings"), {
+      nickname: nick, punch: Number(s.punch), dps: Number(s.dps), grade: String(s.grade||"-"),
+      createdAt: serverTimestamp()
+    });
+    saveBtn.textContent = "저장 완료!";
+    setTimeout(()=>{saveBtn.textContent="랭킹에 저장"; saveBtn.disabled=false;}, 1200);
+  }catch(e){
+    console.error(e); alert("저장 실패: " + e.message);
+    saveBtn.textContent="랭킹에 저장"; saveBtn.disabled=false;
+  }
+});
+
+// 실시간 랭킹 구독
+const rankBody = document.getElementById('rankBody');
+function renderRanks(snapshot){
+  rankBody.innerHTML="";
+  let i=0;
+  snapshot.forEach(doc=>{
+    const r=doc.data(); i++;
+    const tr=document.createElement('tr');
+    const time = r.createdAt?.toDate ? r.createdAt.toDate() : new Date();
+    tr.innerHTML = `
+      <td>${i}</td>
+      <td>${escapeHtml(r.nickname||"-")}</td>
+      <td>${Number(r.punch||0).toLocaleString('ko-KR')}</td>
+      <td>${Number(r.dps||0).toLocaleString('ko-KR')}</td>
+      <td>${escapeHtml(r.grade||"-")}</td>
+      <td>${fmtKST(time)}</td>`;
+    rankBody.appendChild(tr);
+  });
+  if(i===0){rankBody.innerHTML=`<tr><td colspan="6" style="text-align:center;color:#9fb0c9">아직 기록이 없어요. 첫 기록을 남겨보세요!</td></tr>`}
+}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]))}
+function fmtKST(d){try{const tz='Asia/Seoul'; return new Intl.DateTimeFormat('ko-KR',{timeZone:tz,year:'2-digit',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}).format(d);}catch{return d.toLocaleString()}}
+
+onAuthStateChanged(auth, ()=> {
+  // 상위 50, 핵펀치 우선 → 동점이면 DPS 보조
+  const qRef = query(collection(db, "rankings"), orderBy("punch", "desc"), orderBy("dps","desc"), limit(50));
+  onSnapshot(qRef, renderRanks);
+});
 </script>
 </body>
 </html>
